@@ -1,0 +1,6 @@
+framework module Pods_ClickAWash {
+  umbrella header "Pods-ClickAWash-umbrella.h"
+
+  export *
+  module * { export * }
+}
