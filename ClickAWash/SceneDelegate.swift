@@ -60,7 +60,7 @@ extension SceneDelegate {
     
     func changeRootViewController(){
         
-        if let _ = Auth.auth().currentUser{
+        if (Auth.auth().currentUser != nil){
             //Logged in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let controller = storyboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else {return}
@@ -76,6 +76,13 @@ extension SceneDelegate {
                     self.window?.makeKeyAndVisible()
                 }, completion: nil)
             }
+        } else if SignInViewController.isComingFromVendorLogin == true && (Auth.auth().currentUser != nil){
+            
+            let destinationStoryBoard         =     UIStoryboard(name: "Vendor", bundle: nil)
+            let initialNavigationController   =     destinationStoryBoard.instantiateViewController(withIdentifier: "InitialNavigation") as! UINavigationController
+            let destinationController         =     destinationStoryBoard.instantiateViewController(identifier: "MyJobsController") as! MyJobsController
+            initialNavigationController.pushViewController(destinationController, animated: false)
+            
         } else {
             // User is not logged in
             print ("User Not Logged In")

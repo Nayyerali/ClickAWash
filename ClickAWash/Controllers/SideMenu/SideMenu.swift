@@ -9,18 +9,45 @@
 import UIKit
 import FirebaseAuth
 import RESideMenu
+import SDWebImage
 
 class SideMenu: UITableViewController{
- 
-    @IBOutlet weak var profileTableViewCell: ProfileTableViewCell!
+    
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var userEmailAddress: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchingUserData()
+        userImage.roundedImage()
     }
+    
+    func fetchingUserData() {
+        
+        ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, userData) in
+            
+            if status {
+                User.userReference = userData!
+                self.updateUserProfile()
+            } else {
+                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                    
+                }
+            }
+        }
+    }
+    
+    func updateUserProfile() {
+        
+        username.text           = User.userReference.userName
+        userEmailAddress.text   = User.userReference.email
+        
+        if let url = URL(string: User.userReference.imageURL) {
+            self.userImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
+        }
+    }
+}
     
      override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -78,7 +105,7 @@ class SideMenu: UITableViewController{
             let firebaseAuth = Auth.auth()
             do {
                 try firebaseAuth.signOut()
-                // User.userSharefReference = nil
+                User.userReference = nil
                 self.navigationController?.navigationController?.popToRootViewController(animated: true)
             } catch let signOutError as NSError {
                 print ("Error signing out: %@", signOutError)

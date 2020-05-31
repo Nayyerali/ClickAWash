@@ -59,12 +59,16 @@ class SignUpViewController: UIViewController {
         Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
             if error == nil {
                 
-                print (" User Created with ID \(authResult!.user.uid)")
+                print ("User Created with ID \(authResult!.user.uid)")
+                
+
                 
                 ServerCommunication.sharedReference.uploadImage(image: self.userImage.image!, userId: (authResult?.user.uid)!) { (status, response) in
                     
                     if status {
                         let newUser = User(userName: self.userNameField.text!, email: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", userId: (authResult?.user.uid)!, imageURL: response)
+                        
+                        User.userReference = newUser
                         
                         ServerCommunication.sharedReference.uploadUserData(userData: newUser.userDictionary()) { (status, message) in
                             
@@ -82,8 +86,9 @@ class SignUpViewController: UIViewController {
                     } else {
                         CustomLoader.instance.hideLoaderView()
                         self.signUpBtnOut.isEnabled = true
-                        //Alerts.showAlert(controller: self, title: "Error", message: "") { (Ok) in
-                        //}
+                        Alerts.showAlert(controller: self, title: "Error", message: response) { (Ok) in
+                        }
+                        return
                     }
                 }
             } else {

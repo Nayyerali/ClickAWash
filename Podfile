@@ -18,4 +18,5 @@ target 'ClickAWash' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'RESideMenu', '~> 4.0.7'
+  pod 'Stripe'
 end

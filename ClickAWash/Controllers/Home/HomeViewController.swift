@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class HomeViewController: BaseController {
     
@@ -21,6 +22,7 @@ class HomeViewController: BaseController {
         tableViewOut.delegate = self
         tableViewOut.dataSource = self
         fetchingVendorsData()
+        
     }
     
     func presentLocationViewController() {
@@ -39,6 +41,7 @@ class HomeViewController: BaseController {
             if status {
                 self.vendors = vendor!
                 self.tableViewOut.reloadData()
+                print (Auth.auth().currentUser!.uid)
             } else {
                 Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
                     
@@ -84,7 +87,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return specialOfferCell
         }
     }
-    
+   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         CustomLoader.instance.showLoaderView()
@@ -99,7 +102,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             if status{
                 CustomLoader.instance.hideLoaderView()
                 bookWashController.vendorDataForAboutView = vendor
-                self.navigationController!.pushViewController(bookWashController, animated: true)
+                self.navigationController?.pushViewController(bookWashController, animated: true)
                 
             } else {
                 Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in

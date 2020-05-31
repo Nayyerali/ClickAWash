@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class ScheduledBookings: UIViewController {
     
     var userWashBookings = [BookWash]()
+    var expandedIndexPath = IndexPath()
     
     @IBOutlet weak var scheduledWashTableView: UITableView!
     
@@ -24,7 +24,7 @@ class ScheduledBookings: UIViewController {
     
     func fetchingUserWashBookings() {
         
-        ServerCommunication.sharedReference.fetchUserBookings(userId: Auth.auth().currentUser!.uid) { (status, message, userBookings) in
+        ServerCommunication.sharedReference.fetchUserBookings(userId: User.userReference.userId) { (status, message, userBookings) in
             
             if status {
                 self.userWashBookings = userBookings!
@@ -41,6 +41,7 @@ class ScheduledBookings: UIViewController {
 extension ScheduledBookings: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return userWashBookings.count
     }
     
@@ -58,5 +59,26 @@ extension ScheduledBookings: UITableViewDataSource, UITableViewDelegate {
         cell.bookingId.text                     =   userWashBookings[indexPath.row].userId
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.beginUpdates()
+        
+        if indexPath == expandedIndexPath {
+            expandedIndexPath = IndexPath()
+        } else {
+            expandedIndexPath = indexPath
+        }
+        
+        tableView.endUpdates()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if indexPath == expandedIndexPath {
+            return UITableView.automaticDimension
+        }
+        return 150
     }
 }

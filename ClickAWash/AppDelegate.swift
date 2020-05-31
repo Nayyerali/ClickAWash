@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import IQKeyboardManagerSwift
+import Stripe
 
 @UIApplicationMain
 
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
+        STPAPIClient.shared().publishableKey = "pk_test_UKYBPG0wRCKuYcKwx2dJjXf800TJHFl4F1"
         return true
     }
 

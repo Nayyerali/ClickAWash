@@ -12,7 +12,9 @@ import UIKit
 class BaseNavigationController: UINavigationController {
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationBar.barTintColor         = .white
         self.navigationBar.shadowImage          = UIImage()
         self.navigationBar.tintColor            = UIColor.black

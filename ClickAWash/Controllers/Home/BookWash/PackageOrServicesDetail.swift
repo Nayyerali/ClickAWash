@@ -72,7 +72,7 @@ class PackageOrServicesDetail: UIViewController {
                 bookingDate:        self.dateField.text!,
                 bookingStatus:      "Pending",
                 discountCode:       self.dicountCodeField.text!,
-                userId:             Auth.auth().currentUser!.uid)
+                userId:             User.userReference.userId)
             
             self.performSegue(withIdentifier: "ScheduleSummary", sender: serviceDetails)
             

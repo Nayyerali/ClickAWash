@@ -18,6 +18,7 @@ class MyBookingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         segmentedControlOut.selectedSegmentIndex = 0
+        navigationController?.navigationBar.isHidden = false
     }
     
     @IBAction func segmentedControlSelected(_ sender: Any) {

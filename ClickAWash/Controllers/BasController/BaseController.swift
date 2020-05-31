@@ -31,13 +31,13 @@ extension BaseController{
         }
         
         else if navControllerCount > 1 {
-            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.navigationBar.isHidden = true
             self.addBackBarButtonItem()
 
             return
             
         } else {
-            self.navigationController?.navigationBar.isHidden = true
+            self.navigationController?.navigationBar.isHidden = false
             
         }
 

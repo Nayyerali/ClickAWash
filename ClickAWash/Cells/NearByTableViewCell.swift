@@ -22,13 +22,13 @@ class NearByTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        internelViewOut.layer.cornerRadius = 10
-        internelViewOut.layer.shadowRadius = 4
-        internelViewOut.layer.masksToBounds = false
-        internelViewOut.layer.shadowColor = UIColor.gray.cgColor
-        internelViewOut.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        internelViewOut.layer.shadowOpacity = 0.7
-        bookWahBtnOut.layer.cornerRadius = 5
+        internelViewOut.layer.cornerRadius      =   10
+        internelViewOut.layer.shadowRadius      =   4
+        internelViewOut.layer.masksToBounds     =   false
+        internelViewOut.layer.shadowColor       =   UIColor.darkGray.cgColor
+        internelViewOut.layer.shadowOffset      =   CGSize(width: 0.0, height: 0.0)
+        internelViewOut.layer.shadowOpacity     =   0.7
+        bookWahBtnOut.layer.cornerRadius        =   5
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

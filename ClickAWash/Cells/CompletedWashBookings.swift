@@ -22,12 +22,15 @@ class CompletedWashBookings: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        internelViewOut.layer.cornerRadius = 10
-        internelViewOut.layer.shadowRadius = 4
-        internelViewOut.layer.masksToBounds = false
-        internelViewOut.layer.shadowColor = UIColor.gray.cgColor
-        internelViewOut.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        internelViewOut.layer.shadowOpacity = 0.7
+        internelViewOut.layer.cornerRadius      =   10
+        internelViewOut.layer.shadowRadius      =   4
+        internelViewOut.layer.masksToBounds     =   false
+        internelViewOut.layer.shadowColor       =   UIColor.darkGray.cgColor
+        internelViewOut.layer.shadowOffset      =   CGSize(width: 0.0, height: 0.0)
+        internelViewOut.layer.shadowOpacity     =   0.7
+        payNowBtnOut.layer.cornerRadius         =   5
+        bookingStatus.layer.borderWidth         =   2
+        bookingStatus.layer.borderColor         =   CGColor(srgbRed: 3, green: 156, blue: 215, alpha: 1)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

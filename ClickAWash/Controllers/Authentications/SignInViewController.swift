@@ -14,6 +14,8 @@ import FBSDKLoginKit
 
 class SignInViewController: UIViewController, GIDSignInDelegate {
     
+    static var isComingFromVendorLogin:Bool!
+    
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var signInBtnOut: UIButton!
     @IBOutlet weak var passwordField: UITextField!
@@ -46,15 +48,69 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         
         CustomLoader.instance.showLoaderView()
         
-        Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
-            if error == nil {
-                CustomLoader.instance.hideLoaderView()
-                self.performSegue(withIdentifier: "Identifier", sender: nil)
-            } else {
-                CustomLoader.instance.hideLoaderView()
-                self.signInBtnOut.isEnabled = true
-                Alerts.showAlert(controller: self, title: "Error", message: "Unable to Sign in") { (Ok) in
+        if SignInViewController.isComingFromVendorLogin == true {
+            
+            
+            Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                
+                if error == nil {
                     
+                    ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, user) in
+                        
+                        if status {
+                            User.userReference = user
+                            CustomLoader.instance.hideLoaderView()
+                            let destinationStoryBoard   =   UIStoryboard(name: "Vendor", bundle: nil)
+                            let destinationController   =   destinationStoryBoard.instantiateViewController(identifier: "MyJobsController") as! MyJobsController
+                            self.navigationController?.pushViewController(destinationController, animated: true)
+                            
+                        } else {
+                            CustomLoader.instance.hideLoaderView()
+                            self.signInBtnOut.isEnabled = true
+                            Alerts.showAlert(controller: self, title: "Error", message: "Unable to Sign in") { (Ok) in
+                                
+                            }
+                        }
+                    }
+                } else {
+                    
+                    CustomLoader.instance.hideLoaderView()
+                    self.signInBtnOut.isEnabled = true
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                        
+                    }
+                    return
+                }
+            }
+        } else {
+            
+            Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                
+                if error == nil {
+                    
+                    ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, user) in
+                        
+                        if status {
+                            User.userReference = user
+                            CustomLoader.instance.hideLoaderView()
+                            self.performSegue(withIdentifier: "Identifier", sender: nil)
+                            
+                        } else {
+                            CustomLoader.instance.hideLoaderView()
+                            self.signInBtnOut.isEnabled = true
+                            Alerts.showAlert(controller: self, title: "Error", message: "Unable to Sign in") { (Ok) in
+                                
+                            }
+                        }
+                    }
+                } else {
+                    
+                    CustomLoader.instance.hideLoaderView()
+                    self.signInBtnOut.isEnabled = true
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                        
+                    }
+                    return
                 }
             }
         }
@@ -90,6 +146,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     //                           return
                 }else {
                     self.currentUserName()
+                    // MARK: Have to manage user Reference
+                    //User.userReference = user
                     self.performSegue(withIdentifier: "Identifier", sender: nil)
                 }
             })
@@ -98,8 +156,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     func currentUserName()  {
         if let currentUser = Auth.auth().currentUser {
-            //            self.btn_sign_out.isHidden = false
-            //            lb_login_Status.text = "YOU ARE LOGIN AS - " +  (currentUser.displayName ?? "DISPLAY NAME NOT FOUND")
+            
             print(currentUser.displayName!)
         }
     }
@@ -121,6 +178,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if error == nil {
                 // Main Functionality
+                // MARK: Have to manage user Reference
+                //User.userReference = user
                 self.performSegue(withIdentifier: "Identifier", sender: nil)
             }
         }

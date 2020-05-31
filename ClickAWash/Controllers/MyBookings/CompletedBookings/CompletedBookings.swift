@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class CompletedBookings: UIViewController {
     
     var usersCompletedBookings = [BookWash]()
+    var expandedIndexPath = IndexPath()
     
     @IBOutlet weak var completedWashTableView: UITableView!
     
@@ -24,7 +24,7 @@ class CompletedBookings: UIViewController {
     
     func fetchingUsersCompletedBookings() {
         
-        ServerCommunication.sharedReference.fetchUsersCompletedBookings(userId: Auth.auth().currentUser!.uid) { (status, message, userBookings) in
+        ServerCommunication.sharedReference.fetchUsersCompletedBookings(userId: User.userReference.userId) { (status, message, userBookings) in
             
             if status {
                 self.usersCompletedBookings = userBookings!
@@ -33,6 +33,7 @@ class CompletedBookings: UIViewController {
                 Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
                     
                 }
+                return
             }
         }
     }
@@ -59,5 +60,26 @@ extension CompletedBookings: UITableViewDataSource, UITableViewDelegate {
         cell.completedBookingId.text            =   usersCompletedBookings[indexPath.row].userId
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.beginUpdates()
+        
+        if indexPath == expandedIndexPath {
+            expandedIndexPath = IndexPath()
+        } else {
+            expandedIndexPath = indexPath
+        }
+        
+        tableView.endUpdates()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if indexPath == expandedIndexPath {
+            return UITableView.automaticDimension
+        }
+        return 150
     }
 }

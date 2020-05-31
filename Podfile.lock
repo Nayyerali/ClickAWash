@@ -159,6 +159,7 @@ PODS:
   - SDWebImage (5.4.0):
     - SDWebImage/Core (= 5.4.0)
   - SDWebImage/Core (5.4.0)
+  - Stripe (19.2.0)
 
 DEPENDENCIES:
   - Bolts
@@ -172,6 +173,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - RESideMenu (~> 4.0.7)
   - SDWebImage (~> 5.0)
+  - Stripe
 
 SPEC REPOS:
   trunk:
@@ -205,6 +207,7 @@ SPEC REPOS:
     - Protobuf
     - RESideMenu
     - SDWebImage
+    - Stripe
 
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
@@ -237,7 +240,8 @@ SPEC CHECKSUMS:
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
+  Stripe: d481c2dab9a892fd923f097f854661217f70dc7f
 
-PODFILE CHECKSUM: ed81945e0a7e6fb9891148d1e77cb40573312826
+PODFILE CHECKSUM: 95a2fa736d9add3ad93156ad207696dd8bcb2782
 
 COCOAPODS: 1.8.4
