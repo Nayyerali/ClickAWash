@@ -35,5 +35,6 @@ class RequestsTableViewCell: UITableViewCell {
     }
     
     @IBAction func rejectBtnPressed(_ sender: Any) {
+        
     }
 }

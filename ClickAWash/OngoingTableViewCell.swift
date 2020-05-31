@@ -30,6 +30,6 @@ class OngoingTableViewCell: UITableViewCell {
     }
     
     @IBAction func startServiceBtnPressed(_ sender: Any) {
+        
     }
-    
 }

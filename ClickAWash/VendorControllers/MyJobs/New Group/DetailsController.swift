@@ -1,14 +1,14 @@
 //
-//  PayNow.swift
+//  DetailsController.swift
 //  ClickAWash
 //
-//  Created by Nayyer Ali on 5/19/20.
+//  Created by Nayyer Ali on 5/30/20.
 //  Copyright © 2020 NayyerAli. All rights reserved.
 //
 
 import UIKit
 
-class PayNow: UIViewController {
+class DetailsController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
