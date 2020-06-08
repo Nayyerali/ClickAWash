@@ -10,17 +10,20 @@ import Foundation
 
 struct BookWash {
     
-    var packageName:String
-    var packageDescription:String
-    var packageDetails:String
-    var packagePrice:String
-    var bookingTime:String
-    var bookingDate:String
-    var bookingStatus:String
-    var discountCode:String
-    var userId:String
+    var packageName             :   String
+    var packageDescription      :   String
+    var packageDetails          :   String
+    var packagePrice            :   String
+    var bookingTime             :   String
+    var bookingDate             :   String
+    var bookingStatus           :   String
+    var discountCode            :   String
+    var shopName                :   String
+    var userId                  :   String
+    var userName                :   String
+    var userImage               :   String
     
-    init (packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String){
+    init (packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String, shopName:String, userName:String, userImage:String){
         
         self.packageName           =   packageName
         self.packageDescription    =   packageDescription
@@ -31,6 +34,9 @@ struct BookWash {
         self.bookingStatus         =   bookingStatus
         self.discountCode          =   discountCode
         self.userId                =   userId
+        self.shopName              =   shopName
+        self.userName              =   userName
+        self.userImage             =   userImage
     }
     
     init (packageDict:[String:Any]) {
@@ -44,6 +50,9 @@ struct BookWash {
         self.bookingStatus         =   packageDict[FirebaseKeys.BookingStatus.rawValue] as! String
         self.discountCode          =   packageDict[FirebaseKeys.DiscountCode.rawValue] as! String
         self.userId                =   packageDict[FirebaseKeys.UserId.rawValue] as! String
+        self.shopName              =   packageDict[FirebaseKeys.ShopName.rawValue] as! String
+        self.userName              =   packageDict[FirebaseKeys.UserName.rawValue] as! String
+        self.userImage             =   packageDict[FirebaseKeys.UserImage.rawValue] as! String
     }
     
     enum FirebaseKeys:String {
@@ -57,6 +66,9 @@ struct BookWash {
         case BookingStatus         =   "BookingStatus"
         case DiscountCode          =   "DiscountCode"
         case UserId                =   "UserId"
+        case ShopName              =   "ShopName"
+        case UserName              =   "UserName"
+        case UserImage             =   "UserImage"
     }
     
     func packageDictionary()->[String:Any] {
@@ -70,6 +82,9 @@ struct BookWash {
             FirebaseKeys.BookingDate.rawValue:self.bookingDate,
             FirebaseKeys.BookingStatus.rawValue:self.bookingStatus,
             FirebaseKeys.DiscountCode.rawValue:self.discountCode,
+            FirebaseKeys.ShopName.rawValue:self.shopName,
+            FirebaseKeys.UserName.rawValue:self.userName,
+            FirebaseKeys.UserImage.rawValue:self.userImage,
             FirebaseKeys.UserId.rawValue:self.userId]
     }
 }

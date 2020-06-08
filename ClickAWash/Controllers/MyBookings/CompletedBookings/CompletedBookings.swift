@@ -67,8 +67,11 @@ extension CompletedBookings: UITableViewDataSource, UITableViewDelegate {
         tableView.beginUpdates()
         
         if indexPath == expandedIndexPath {
+            
             expandedIndexPath = IndexPath()
+            
         } else {
+            
             expandedIndexPath = indexPath
         }
         
@@ -78,6 +81,7 @@ extension CompletedBookings: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath == expandedIndexPath {
+            
             return UITableView.automaticDimension
         }
         return 150

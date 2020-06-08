@@ -96,6 +96,7 @@ extension BookCarWashViewController: UITableViewDataSource, UITableViewDelegate 
         cell.packageDescription.text    =   packagesOfVendors[indexPath.row].packageDescription
         cell.packagePrice.text          =   packagesOfVendors[indexPath.row].packagePrice
         
+        
         return cell
     }
     
@@ -107,7 +108,7 @@ extension BookCarWashViewController: UITableViewDataSource, UITableViewDelegate 
         bookWashController.selectedPackageName          =    packagesOfVendors[indexPath.row].packageName
         bookWashController.selectedPackageDescription   =    packagesOfVendors[indexPath.row].packageDescription
         bookWashController.selectedPackagePrice         =    packagesOfVendors[indexPath.row].packagePrice
-        
+        bookWashController.vendorShopName               =    vendorDataForAboutView.name
         self.navigationController?.pushViewController(bookWashController, animated: true)
     }
 }

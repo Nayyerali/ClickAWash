@@ -10,7 +10,7 @@ import UIKit
 
 class LogInOptionsViewController: UIViewController {
 
-    var LoginAsVendor = true
+    var LoginAsWorker = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class LogInOptionsViewController: UIViewController {
 
         if segue.identifier == "LogInOptionsViewController" {
             let _ = segue.destination as! SignInViewController
-            SignInViewController.isComingFromVendorLogin = LoginAsVendor
+            SignInViewController.isComingFromWorkerLogin = LoginAsWorker
         }
     }
 }

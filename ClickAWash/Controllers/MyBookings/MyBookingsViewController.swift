@@ -19,14 +19,18 @@ class MyBookingsViewController: UIViewController {
         super.viewDidLoad()
         segmentedControlOut.selectedSegmentIndex = 0
         navigationController?.navigationBar.isHidden = false
+        
     }
     
     @IBAction func segmentedControlSelected(_ sender: Any) {
         
         if segmentedControlOut.selectedSegmentIndex == 0 {
+            
             scheduledContainerView.alpha = 1
             completedContainerView.alpha = 0
+            
         } else {
+            
             scheduledContainerView.alpha = 0
             completedContainerView.alpha = 1
         }

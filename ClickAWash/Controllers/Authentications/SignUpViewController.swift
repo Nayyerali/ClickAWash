@@ -12,6 +12,8 @@ import FirebaseAuth
 
 class SignUpViewController: UIViewController {
     
+    var tempVariable = true
+    
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -56,6 +58,50 @@ class SignUpViewController: UIViewController {
         
         CustomLoader.instance.showLoaderView()
         
+        if tempVariable {
+            Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                if error == nil {
+                    
+                    print ("User Created with ID \(authResult!.user.uid)")
+                    
+
+                    
+                    ServerCommunication.sharedReference.uploadWorkerImage(image: self.userImage.image!, workerId: (authResult?.user.uid)!) { (status, response) in
+                        
+                        if status {
+                            let newUser = Worker(workerName: self.userNameField.text!, workerEmail: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", workerId: (authResult?.user.uid)!, imageURL: response, workerShop: "My Shop")
+                            
+                            Worker.workerReference = newUser
+                            
+                            ServerCommunication.sharedReference.uploadWorkerData(workerData: newUser.workerDictionary()) { (status, message) in
+                                
+                                if status {
+                                    CustomLoader.instance.hideLoaderView()
+                                    self.performSegue(withIdentifier: "Identifier", sender: nil)
+                                } else {
+                                    self.signUpBtnOut.isEnabled = true
+                                    CustomLoader.instance.hideLoaderView()
+                                    Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                                        
+                                    }
+                                }
+                            }
+                        } else {
+                            CustomLoader.instance.hideLoaderView()
+                            self.signUpBtnOut.isEnabled = true
+                            Alerts.showAlert(controller: self, title: "Error", message: response) { (Ok) in
+                            }
+                            return
+                        }
+                    }
+                } else {
+                    CustomLoader.instance.hideLoaderView()
+                    self.signUpBtnOut.isEnabled = true
+                    print(error?.localizedDescription)
+                }
+            }
+        } else {
+        
         Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
             if error == nil {
                 
@@ -97,11 +143,12 @@ class SignUpViewController: UIViewController {
                 print(error?.localizedDescription)
             }
         }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Identifier" {
-            _ = segue.destination as! LocationViewController
+        if segue.identifier == "HomeViewController" {
+            _ = segue.destination as! HomeViewController
         }
     }
     

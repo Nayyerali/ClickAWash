@@ -34,7 +34,7 @@ extension BaseController{
             self.navigationController?.navigationBar.isHidden = true
             self.addBackBarButtonItem()
 
-            return
+            //return
             
         } else {
             self.navigationController?.navigationBar.isHidden = false

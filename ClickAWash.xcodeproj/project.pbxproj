@@ -76,6 +76,8 @@
 		17BAF907246CA78300D86D49 /* BookCarWashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAF906246CA78300D86D49 /* BookCarWashViewController.swift */; };
 		17BAF909246CA79800D86D49 /* RateApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAF908246CA79800D86D49 /* RateApplicationViewController.swift */; };
 		17BCEEE4248303C40072B59C /* LogInOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCEEE3248303C40072B59C /* LogInOptionsViewController.swift */; };
+		17BCEEE62483407B0072B59C /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCEEE52483407B0072B59C /* Worker.swift */; };
+		17BCEEE924834C800072B59C /* CompanyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCEEE824834C800072B59C /* CompanyProfileViewController.swift */; };
 		17BEC44524707CD70002C2B0 /* Menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 17BEC44324707CD70002C2B0 /* Menu.png */; };
 		17BEC44624707CD70002C2B0 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 17BEC44424707CD70002C2B0 /* Back.png */; };
 		17C23D49246B375400DBA153 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C23D48246B375400DBA153 /* MapViewController.swift */; };
@@ -154,6 +156,8 @@
 		17BAF906246CA78300D86D49 /* BookCarWashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCarWashViewController.swift; sourceTree = "<group>"; };
 		17BAF908246CA79800D86D49 /* RateApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateApplicationViewController.swift; sourceTree = "<group>"; };
 		17BCEEE3248303C40072B59C /* LogInOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInOptionsViewController.swift; sourceTree = "<group>"; };
+		17BCEEE52483407B0072B59C /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
+		17BCEEE824834C800072B59C /* CompanyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfileViewController.swift; sourceTree = "<group>"; };
 		17BEC44324707CD70002C2B0 /* Menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu.png; sourceTree = "<group>"; };
 		17BEC44424707CD70002C2B0 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		17C23D48246B375400DBA153 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 		170D642B2481EDBA005139BC /* VendorControllers */ = {
 			isa = PBXGroup;
 			children = (
+				17BCEEE724834C610072B59C /* CompanyProfile */,
 				170D64372481EFFB005139BC /* SideMenu */,
 				170D642E2481EF0D005139BC /* MyJobs */,
 				170D643D2481F084005139BC /* Notifications */,
@@ -337,6 +342,7 @@
 				1710A59A2467823200C7243F /* Packages.swift */,
 				179789E02479FBBC00A1980F /* BookWash.swift */,
 				1710A598246781B500C7243F /* User.swift */,
+				17BCEEE52483407B0072B59C /* Worker.swift */,
 				1701A19524688C8400AA7CD5 /* Alerts.swift */,
 				1701A19624688C8400AA7CD5 /* EmailAndPasswordValidation.swift */,
 			);
@@ -474,6 +480,14 @@
 				1775FE15246DEC7800C11AAE /* InviteFriendsViewController.swift */,
 			);
 			path = InviteFriends;
+			sourceTree = "<group>";
+		};
+		17BCEEE724834C610072B59C /* CompanyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				17BCEEE824834C800072B59C /* CompanyProfileViewController.swift */,
+			);
+			path = CompanyProfile;
 			sourceTree = "<group>";
 		};
 		17DBE1A52477561E00AB679F /* BookWash */ = {
@@ -677,6 +691,7 @@
 				17A9BCDF2481F65E0021CB7D /* TodoTableViewCell.swift in Sources */,
 				1701A19B24688C8500AA7CD5 /* Utilities.swift in Sources */,
 				170D64362481EFE7005139BC /* DoneController.swift in Sources */,
+				17BCEEE924834C800072B59C /* CompanyProfileViewController.swift in Sources */,
 				17B6FD8C247332AE00763221 /* ChangePassword.swift in Sources */,
 				17AFAA102475C4DC00FFD4D7 /* MyBookingsViewController.swift in Sources */,
 				170D64322481EFB4005139BC /* TodoController.swift in Sources */,
@@ -693,6 +708,7 @@
 				1710A5A1246782FD00C7243F /* LocationViewController.swift in Sources */,
 				1737D00824789D6200FC5A29 /* WalletTableViewCell.swift in Sources */,
 				1702E31A247B74C200A487D1 /* ScheduleSummaryTableViewCell.swift in Sources */,
+				17BCEEE62483407B0072B59C /* Worker.swift in Sources */,
 				170D64302481EF9E005139BC /* RequestsController.swift in Sources */,
 				17B6FD902473330400763221 /* AboutUs.swift in Sources */,
 				17B6FD8E247332CB00763221 /* Language.swift in Sources */,

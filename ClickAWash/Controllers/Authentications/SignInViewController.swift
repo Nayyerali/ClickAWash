@@ -14,7 +14,7 @@ import FBSDKLoginKit
 
 class SignInViewController: UIViewController, GIDSignInDelegate {
     
-    static var isComingFromVendorLogin:Bool!
+    static var isComingFromWorkerLogin:Bool!
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var signInBtnOut: UIButton!
@@ -22,6 +22,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailField.text     =   "talha@gmail.com"
+        passwordField.text  =   "N@yyer@l!777"
         GIDSignIn.sharedInstance().delegate = self
     }
     
@@ -48,17 +50,17 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         
         CustomLoader.instance.showLoaderView()
         
-        if SignInViewController.isComingFromVendorLogin == true {
+        if SignInViewController.isComingFromWorkerLogin == true {
             
             
             Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
                 
                 if error == nil {
                     
-                    ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, user) in
+                    ServerCommunication.sharedReference.fetchWorkerData(workerID: Auth.auth().currentUser!.uid) { (status, message, worker) in
                         
                         if status {
-                            User.userReference = user
+                            Worker.workerReference = worker
                             CustomLoader.instance.hideLoaderView()
                             let destinationStoryBoard   =   UIStoryboard(name: "Vendor", bundle: nil)
                             let destinationController   =   destinationStoryBoard.instantiateViewController(identifier: "MyJobsController") as! MyJobsController
@@ -93,7 +95,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         if status {
                             User.userReference = user
                             CustomLoader.instance.hideLoaderView()
-                            self.performSegue(withIdentifier: "Identifier", sender: nil)
+                            self.performSegue(withIdentifier: "HomeViewController", sender: nil)
                             
                         } else {
                             CustomLoader.instance.hideLoaderView()
@@ -186,8 +188,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Identifier" {
-            _ = segue.destination as! LocationViewController
+        if segue.identifier == "HomeViewController" {
+            _ = segue.destination as! HomeViewController
         }
     }
     

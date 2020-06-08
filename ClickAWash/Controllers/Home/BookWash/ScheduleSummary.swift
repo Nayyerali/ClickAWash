@@ -26,7 +26,7 @@ class ScheduleSummary: UIViewController {
         
         CustomLoader.instance.showLoaderView()
         
-        ServerCommunication.sharedReference.scheduleWashBooking(packageName: servicesSummary.packageName, packageDescription: servicesSummary.packageDescription, packageDetails: servicesSummary.packageDetails, packagePrice: servicesSummary.packagePrice, bookingTime: servicesSummary.bookingTime, bookingDate: servicesSummary.bookingDate, bookingStatus: "Pending", discountCode: servicesSummary.discountCode, userId: servicesSummary.userId) { (status, message) in
+        ServerCommunication.sharedReference.scheduleWashBooking(requestSenderName: servicesSummary.userName, requestSenderImage: servicesSummary.userImage, packageName: servicesSummary.packageName, packageDescription: servicesSummary.packageDescription, packageDetails: servicesSummary.packageDetails, packagePrice: servicesSummary.packagePrice, bookingTime: servicesSummary.bookingTime, bookingDate: servicesSummary.bookingDate, bookingStatus: "Pending", discountCode: servicesSummary.discountCode, userId: servicesSummary.userId, shopName: servicesSummary.shopName) { (status, message) in
             
             if status {
                 
@@ -36,6 +36,7 @@ class ScheduleSummary: UIViewController {
                 }
                 
             } else {
+                
                 CustomLoader.instance.hideLoaderView()
                 Alerts.showAlert(controller: self, title: "Faliure", message: message) { (Ok) in
                     

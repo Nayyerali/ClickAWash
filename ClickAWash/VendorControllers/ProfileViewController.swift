@@ -10,6 +10,11 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var workerImage: UIImageView!
+    @IBOutlet weak var workerName: UILabel!
+    @IBOutlet weak var workerEmail: UILabel!
+    @IBOutlet weak var workerPhoneNumber: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

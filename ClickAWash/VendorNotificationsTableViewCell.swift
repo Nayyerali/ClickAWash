@@ -10,6 +10,11 @@ import UIKit
 
 class VendorNotificationsTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var workerName: UILabel!
+    @IBOutlet weak var notificationText: UILabel!
+    @IBOutlet weak var senderImage: UIImageView!
+    @IBOutlet weak var notificationTIme: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

@@ -18,7 +18,7 @@ class HomeViewController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //presentLocationViewController()
+       // presentLocationViewController()
         tableViewOut.delegate = self
         tableViewOut.dataSource = self
         fetchingVendorsData()
@@ -29,7 +29,7 @@ class HomeViewController: BaseController {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
-        controller.present(controller, animated: true) {
+        controller.present(controller, animated: true){
             
         }
     }

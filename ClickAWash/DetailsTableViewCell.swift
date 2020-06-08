@@ -10,13 +10,15 @@ import UIKit
 
 class DetailsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var internelViewOut: UIView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var packagePrice: UILabel!
     @IBOutlet weak var vendorId: UILabel!
     @IBOutlet weak var dateAndTime: UILabel!
-    @IBOutlet weak var packageName: UILabel!
+    @IBOutlet weak var emailAddress: UILabel!
+    @IBOutlet weak var phoneNumber: UILabel!
+    @IBOutlet weak var packageDescription: UILabel!
+    @IBOutlet weak var serviceDetails: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

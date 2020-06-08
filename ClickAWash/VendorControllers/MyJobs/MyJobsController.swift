@@ -24,7 +24,7 @@ class MyJobsController: UIViewController {
     @IBAction func segmentedControllerChanged(_ sender: Any) {
         
         switch segmentedController.selectedSegmentIndex {
-            
+
         case 1:
             requestsContainerView.alpha =   0
             ongoingContainerView.alpha  =   1

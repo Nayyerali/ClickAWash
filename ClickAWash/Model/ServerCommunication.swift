@@ -6,8 +6,6 @@
 //  Copyright © 2020 NayyerAli. All rights reserved.
 //
 
-// let abc = firebaseFiretore.collection("ABC").document().collection("abcd").getDocuments(completion: <#T##FIRQuerySnapshotBlock##FIRQuerySnapshotBlock##(QuerySnapshot?, Error?) -> Void#>)
-
 import Foundation
 import Firebase
 import FirebaseStorage
@@ -31,18 +29,43 @@ public class ServerCommunication {
         firebaseFiretore.collection("Users").document(userId).setData(userData) { (error) in
             
             if error == nil {
+                
                 completion(true, "User Data Uploaded")
+                
             } else {
+                
                 completion(false, error!.localizedDescription)
+                
             }
         }
     }
     
-    func scheduleWashBooking(packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String, completion:@escaping(_ status:Bool,_ message:String) -> Void) {
+    func uploadWorkerData(workerData:[String:Any],completion:@escaping(_ status:Bool,_ message:String) -> Void) {
         
-        let washBooking = firebaseFiretore.collection("Users").document(userId).collection("WashBookings").document()
+        let workerId = workerData["WorkerId"] as! String
+        firebaseFiretore.collection("Workers").document(workerId).setData(workerData) { (error) in
+            
+            if error == nil {
+                
+                completion(true, "Worker Data Uploaded")
+                
+            } else {
+                
+                completion(false, error!.localizedDescription)
+                
+            }
+        }
+    }
+    
+    func scheduleWashBooking(requestSenderName:String, requestSenderImage:String, packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String, shopName:String, completion:@escaping(_ status:Bool,_ message:String) -> Void) {
+        
+        //let washBooking = firebaseFiretore.collection("Users").document(userId).collection("WashBookings").document()
+        
+        let washBooking = firebaseFiretore.collection("WashBookings").document()
         
         washBooking.setData([
+            "RequestSenderName"     :   requestSenderName,
+            "RequestSenderImage"    :   requestSenderImage,
             "PackageName"           :   packageName,
             "PckageDescription"     :   packageDescription,
             "PackageDetails"        :   packageDetails,
@@ -51,7 +74,9 @@ public class ServerCommunication {
             "BookingDate"           :   bookingDate,
             "BookingStatus"         :   bookingStatus,
             "DiscountCode"          :   discountCode,
-            "UserId"                :   userId
+            "UserId"                :   userId,
+            "ShopName"              :   shopName
+            
         ]) { (error) in
             
             if error == nil {
@@ -74,13 +99,43 @@ public class ServerCommunication {
                 if let userDic = snapshot.data() {
                     
                     let user = User(userDict: userDic)
+                    
                     completion(true, "Got User Data", user)
                     
                 } else {
+                    
                     completion(false, "Unableto get user data", nil)
+                    
                 }
             } else {
+                
                 completion(false, error!.localizedDescription, nil)
+                
+            }
+        }
+    }
+    
+    func fetchWorkerData(workerID:String,completion:@escaping(_ status:Bool,_ message:String,_ worker:Worker?) -> Void) {
+        
+        firebaseFiretore.collection("Workers").document(workerID).getDocument { (snapshot, error) in
+            
+            if let snapshot = snapshot {
+                
+                if let workerDic = snapshot.data() {
+                    
+                    let worker = Worker(workerDict: workerDic)
+                    
+                    completion(true, "Got Worker Data", worker)
+                    
+                } else {
+                    
+                    completion(false, "Unableto get worker data", nil)
+                    
+                }
+            } else {
+                
+                completion(false, error!.localizedDescription, nil)
+                
             }
         }
     }
@@ -114,9 +169,40 @@ public class ServerCommunication {
         }
     }
     
+    func uploadWorkerImage(image:UIImage,workerId:String,completion:@escaping(_ status:Bool,_ response:String)->Void){
+        // if status is true then downloadurl will be in response
+        
+        // Data in memory
+        guard let data = image.jpegData(compressionQuality: 0.5) else{
+            completion(false,"Unable to get data from image")
+            return
+        }
+        // Create a reference to the file you want to upload
+        let riversRef = firebaseStorage.reference().child("Workers images/\(workerId).jpg")
+        // Upload the file to the path "images/rivers.jpg"
+        let _ = riversRef.putData(data, metadata: nil) { (metadata, error) in
+            guard let _ = metadata else {
+                // Uh-oh, an error occurred!
+                completion(false,error!.localizedDescription)
+                return
+            }
+            // You can also access to download URL after upload.
+            riversRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    completion(false,error!.localizedDescription)
+                    return
+                }
+                completion(true,downloadURL.absoluteString)
+            }
+        }
+    }
+    
     func fetchUserBookings(userId:String, completion:@escaping(_ status:Bool, _ message:String, _ bookings:[BookWash]?) -> Void){
         
-        firebaseFiretore.collection("Users").document(userId).collection("WashBookings").getDocuments { (snapshot, error) in
+        //        firebaseFiretore.collection("Users").document(userId).collection("WashBookings").getDocuments { (snapshot, error) in
+        
+        firebaseFiretore.collection("WashBookings").whereField("UserId", isEqualTo: userId).getDocuments { (snapshot, error) in
             
             if error == nil {
                 // User's Booking Data is Fetched
@@ -136,18 +222,78 @@ public class ServerCommunication {
                         let bookingStatus       =   washBookingsData["BookingStatus"] as! String
                         let discoutCode         =   washBookingsData["DiscountCode"] as! String
                         let userId              =   washBookingsData["UserId"] as! String
+                        let shopName            =   washBookingsData["ShopName"] as! String
+                        let userName            =   washBookingsData["RequestSenderName"] as! String
+                        let userImage           =   washBookingsData["RequestSenderImage"] as! String
                         
-                        let userWashBooking = BookWash(packageName: packageName, packageDescription: packageDescription, packageDetails: packageDetails, packagePrice: packagePrice, bookingTime: bookingTime, bookingDate: bookingDate, bookingStatus: bookingStatus, discountCode: discoutCode, userId: userId)
+                        let userWashBooking = BookWash(packageName: packageName, packageDescription: packageDescription, packageDetails: packageDetails, packagePrice: packagePrice, bookingTime: bookingTime, bookingDate: bookingDate, bookingStatus: bookingStatus, discountCode: discoutCode, userId: userId, shopName: shopName, userName: userName, userImage: userImage)
                         
                         washBookings.append(userWashBooking)
                         
                     }
                     completion(true, "Got User Wash Bookings", washBookings)
+                    
                 } else {
+                    
                     completion(false, "Unable to fetch User Bookings", nil)
+                    
                 }
             } else {
+                
                 completion(false, error!.localizedDescription, nil)
+                
+            }
+        }
+    }
+    
+    func fetchAllUsersBookingsForWorker(completion:@escaping(_ status:Bool, _ message:String, _ bookings:[BookWash]?) -> Void){
+        
+        let workerShopName      =   Worker.workerReference.workerShop
+        
+        firebaseFiretore.collection("WashBookings").whereField("ShopName", isEqualTo: workerShopName).getDocuments { (snapshot, error) in
+            
+            if error == nil {
+                
+                // User's Booking Data is Fetched
+                if let washBookingDocuments = snapshot?.documents {
+                    
+                    // Got all Documents
+                    var washBookings        =   [BookWash]()
+                    
+                    for documents in washBookingDocuments {
+                        
+                        let washBookingsData    =   documents.data()
+                        
+                        let packageName         =   washBookingsData["PackageName"] as! String
+                        let packageDescription  =   washBookingsData["PckageDescription"] as! String
+                        let packageDetails      =   washBookingsData["PackageDetails"] as! String
+                        let packagePrice        =   washBookingsData["PackagePrice"] as! String
+                        let bookingDate         =   washBookingsData["BookingDate"] as! String
+                        let bookingTime         =   washBookingsData["BookingTime"] as! String
+                        let bookingStatus       =   washBookingsData["BookingStatus"] as! String
+                        let discoutCode         =   washBookingsData["DiscountCode"] as! String
+                        let userId              =   washBookingsData["UserId"] as! String
+                        let shopName            =   washBookingsData["ShopName"] as! String
+                        let userName            =   washBookingsData["RequestSenderName"] as! String
+                        let userImage           =   washBookingsData["RequestSenderImage"] as! String
+                        
+                        let userWashBooking = BookWash(packageName: packageName, packageDescription: packageDescription, packageDetails: packageDetails, packagePrice: packagePrice, bookingTime: bookingTime, bookingDate: bookingDate, bookingStatus: bookingStatus, discountCode: discoutCode, userId: userId, shopName: shopName, userName: userName, userImage: userImage)
+                        
+                        washBookings.append(userWashBooking)
+                    }
+                    
+                    completion(true, "Got Users Wash Bookings", washBookings)
+                    
+                } else {
+                    
+                    completion(false, "Unable to fetch Users Bookings", nil)
+                    
+                }
+                
+            } else {
+                
+                completion(false, error!.localizedDescription, nil)
+                
             }
         }
     }
@@ -174,19 +320,29 @@ public class ServerCommunication {
                         let bookingStatus       =   washBookingsData["BookingStatus"] as! String
                         let discoutCode         =   washBookingsData["DiscountCode"] as! String
                         let userId              =   washBookingsData["UserId"] as! String
+                        let shopName            =   washBookingsData["ShopName"] as! String
+                        let userName            =   washBookingsData["RequestSenderName"] as! String
+                        let userImage           =   washBookingsData["RequestSenderImage"] as! String
                         
-                        let userWashBooking = BookWash(packageName: packageName, packageDescription: packageDescription, packageDetails: packageDetails, packagePrice: packagePrice, bookingTime: bookingTime, bookingDate: bookingDate, bookingStatus: bookingStatus, discountCode: discoutCode, userId: userId)
+                        let userWashBooking = BookWash(packageName: packageName, packageDescription: packageDescription, packageDetails: packageDetails, packagePrice: packagePrice, bookingTime: bookingTime, bookingDate: bookingDate, bookingStatus: bookingStatus, discountCode: discoutCode, userId: userId, shopName: shopName, userName: userName, userImage: userImage)
                         
                         if userWashBooking.bookingStatus == "Completed" {
                             washBookings.append(userWashBooking)
                         }
                     }
+                    
                     completion(true, "Got User Wash Bookings", washBookings)
+                    
                 } else {
+                    
                     completion(false, "Unable to fetch User Bookings", nil)
+                    
                 }
+                
             } else {
+                
                 completion(false, error!.localizedDescription, nil)
+                
             }
         }
     }
@@ -215,11 +371,16 @@ public class ServerCommunication {
                         vendors.append(vendor)
                     }
                     completion(true, "Got Vendors Data", vendors)
+                    
                 } else {
+                    
                     completion(false, "Vendors data not found", nil)
+                    
                 }
             } else {
+                
                 completion(false, error!.localizedDescription, nil)
+                
             }
         }
     }
@@ -244,11 +405,16 @@ public class ServerCommunication {
                         
                     }
                     completion(true, "Got Packages", packages)
+                    
                 } else {
+                    
                     completion(false, "Unable to find any Package", nil)
+                    
                 }
             } else {
+                
                 completion(false, error!.localizedDescription, nil)
+                
             }
         }
     }
@@ -262,7 +428,9 @@ public class ServerCommunication {
                 if let vendorDic    =   snapshot.data(){
                     let vendor      =   Vendor(vendorDict: vendorDic)
                     completion(true, "Got Vendor Data", vendor)
+                    
                 } else {
+                    
                     completion(false, "Unable to get Vendor data", nil)
                 }
             } else {

@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // guard let windowScene = (scene as? UIWindowScene) else { return }
         // self.window = UIWindow(windowScene: windowScene)
-        self.changeRootViewController()
+        //self.changeRootViewController()
         //self.checkForCurrentUser()
     }
     
@@ -60,7 +60,7 @@ extension SceneDelegate {
     
     func changeRootViewController(){
         
-        if (Auth.auth().currentUser != nil){
+        if let _ = Auth.auth().currentUser{
             //Logged in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let controller = storyboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else {return}
@@ -76,7 +76,7 @@ extension SceneDelegate {
                     self.window?.makeKeyAndVisible()
                 }, completion: nil)
             }
-        } else if SignInViewController.isComingFromVendorLogin == true && (Auth.auth().currentUser != nil){
+        } else if SignInViewController.isComingFromWorkerLogin == true && (Auth.auth().currentUser != nil){
             
             let destinationStoryBoard         =     UIStoryboard(name: "Vendor", bundle: nil)
             let initialNavigationController   =     destinationStoryBoard.instantiateViewController(withIdentifier: "InitialNavigation") as! UINavigationController
