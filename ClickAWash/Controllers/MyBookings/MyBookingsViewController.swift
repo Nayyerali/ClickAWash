@@ -19,7 +19,7 @@ class MyBookingsViewController: UIViewController {
         super.viewDidLoad()
         segmentedControlOut.selectedSegmentIndex = 0
         navigationController?.navigationBar.isHidden = false
-        
+
     }
     
     @IBAction func segmentedControlSelected(_ sender: Any) {
