@@ -22,7 +22,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        userImage.roundedImage()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

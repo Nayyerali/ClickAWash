@@ -11,6 +11,7 @@ import Firebase
 import GoogleSignIn
 import FBSDKCoreKit
 import FBSDKLoginKit
+import RESideMenu
 
 class SignInViewController: UIViewController, GIDSignInDelegate {
     
@@ -19,13 +20,31 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var signInBtnOut: UIButton!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var facebookBtnOutlet: UIButton!
+    @IBOutlet weak var googleBtnOutlet: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         emailField.text     =   "talha@gmail.com"
         passwordField.text  =   "N@yyer@l!777"
         GIDSignIn.sharedInstance().delegate = self
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if SignInViewController.isComingFromWorkerLogin == true {
+            facebookBtnOutlet.alpha  =  0
+            googleBtnOutlet.alpha    =  0
+            
+        } else {
+            
+            facebookBtnOutlet.alpha  =  1
+            googleBtnOutlet.alpha    =  1
+        }
+    }
+    
     
     @IBAction func forgotPasswordBtn(_ sender: Any) {
         
@@ -120,51 +139,121 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     @IBAction func signInWithFacebookBtn(_ sender: Any) {
         
+        CustomLoader.instance.showLoaderView()
+        
         let loginManager = LoginManager()
+        
         loginManager.logIn(permissions: ["public_profile", "email"], from: self) { (result, error) in
+            
             if let error = error {
-                print("Failed to login: \(error.localizedDescription)")
+                
+                CustomLoader.instance.hideLoaderView()
+                Alerts.showAlert(controller: self, title: "Error", message: error.localizedDescription) { (Ok) in
+                    
+                }
                 return
-            }
-            
-            guard let accessToken = AccessToken.current else {
-                print("Failed to get access token")
-                return
-            }
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-            
-            // Perform login by calling Firebase APIs
-            Auth.auth().signIn(with: credential, completion: { (user, error) in
-                if let error = error {
-                    Alerts.showAlert(controller: self, title: "Error", message: error.localizedDescription) { (Ok) in
+                
+            } else {
+                
+                let loginResult = result
+                
+                if (result?.isCancelled)! {
+                    
+                    CustomLoader.instance.hideLoaderView()
+                    Alerts.showAlert(controller: self, title: "Cancled", message: "User cancled login operation") { (Ok) in
+                        
                     }
                     return
-                    //                           print("Login error: \(error.localizedDescription)")
-                    //                           let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                    //                           let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    //                           alertController.addAction(okayAction)
-                    //                           self.present(alertController, animated: true, completion: nil)
-                    //                           return
-                }else {
-                    self.currentUserName()
-                    // MARK: Have to manage user Reference
-                    //User.userReference = user
-                    self.performSegue(withIdentifier: "Identifier", sender: nil)
+                    
+                } else if (loginResult?.grantedPermissions.contains("email"))! {
+                    
+                    self.signInWithReceivedFacebookUserData()
+                    
+                } else {
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                        
+                    }
+                    return
+                }
+            }
+        }
+    }
+    
+    func signInWithReceivedFacebookUserData(){
+        
+        if((AccessToken.current) != nil){
+            
+            GraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+                
+                if (error == nil){
+                    
+                    let resultData = result as! [String: Any]
+                    var userProfileImageURL:String!
+                    
+                    let userName        =   resultData["name"] as! String
+                    let userImage       =   resultData["picture"] as! [String:Any]
+                    let image           =   userImage["data"] as! [String:Any]
+                    let userEmail       =   resultData["email"] as! String
+                    let userId          =   resultData["id"] as! String
+                    
+                    image.filter { (key: String, value: Any) -> Bool in
+                        
+                        if key == "url" {
+                            
+                            userProfileImageURL = (value as! String)
+                        }
+                        return true
+                    }
+                    
+                    var facebookUser = User(userName: userName, email: userEmail, referralCode: "", location: "", userId: userId, imageURL: userProfileImageURL)
+                    
+                    //User.userReference  =   facebookUser
+                    
+                    guard let accessToken = AccessToken.current else {
+                        
+                        Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                            
+                        }
+                        print("Failed to get access token")
+                        return
+                    }
+                    
+                    let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+                    
+                    // Perform login by calling Firebase APIs
+                    
+                    Auth.auth().signIn(with: credential, completion: { (user, error) in
+                        
+                        if let error = error {
+                            
+                            CustomLoader.instance.hideLoaderView()
+                            Alerts.showAlert(controller: self, title: "Error", message: error.localizedDescription) { (Ok) in
+                                
+                            }
+                            
+                            return
+                            
+                        } else {
+                            User.userReference = facebookUser
+                            CustomLoader.instance.hideLoaderView()
+                            SideMenu.isComingFromSocialMediaPlatforms = true
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            guard let controller = storyboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else {return}
+                            let leftMenuController = storyboard.instantiateViewController(withIdentifier: "SideMenu")
+                            let navController = BaseNavigationController(rootViewController: controller)
+                            let sideMenuController = RESideMenu(contentViewController: navController, leftMenuViewController: leftMenuController, rightMenuViewController: nil)
+                            self.navigationController?.pushViewController(sideMenuController!, animated: true)
+                            //self.performSegue(withIdentifier: "HomeViewController", sender: nil)
+                        }
+                    })
                 }
             })
         }
     }
     
-    func currentUserName()  {
-        if let currentUser = Auth.auth().currentUser {
-            
-            print(currentUser.displayName!)
-        }
-    }
-    
     @IBAction func signInWithGoogleBtn(_ sender: Any) {
         
+        CustomLoader.instance.showLoaderView()
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.signIn()
     }
@@ -172,17 +261,43 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         
         if error != nil {
+            
+            CustomLoader.instance.hideLoaderView()
+            Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                
+            }
             return
-        }
-        guard let authentication = user.authentication else {return}
-        
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if error == nil {
-                // Main Functionality
-                // MARK: Have to manage user Reference
-                //User.userReference = user
-                self.performSegue(withIdentifier: "Identifier", sender: nil)
+            
+        } else {
+            
+            guard let authentication = user.authentication else {return}
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                
+                
+                if error == nil {
+                    // Main Functionality
+                    // MARK: Have to manage user Reference
+                    
+                    let newUser = User(userName: user.profile.name, email: user.profile.email, referralCode: "", location: "", userId: user.userID, imageURL: "\(user.profile.imageURL(withDimension: .max)!)")
+                    
+                    User.userReference = newUser
+                    CustomLoader.instance.hideLoaderView()
+                    SideMenu.isComingFromSocialMediaPlatforms = true
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let controller = storyboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else {return}
+                    let leftMenuController = storyboard.instantiateViewController(withIdentifier: "SideMenu")
+                    let navController = BaseNavigationController(rootViewController: controller)
+                    let sideMenuController = RESideMenu(contentViewController: navController, leftMenuViewController: leftMenuController, rightMenuViewController: nil)
+                    self.navigationController?.pushViewController(sideMenuController!, animated: true)
+                } else {
+                    
+                    CustomLoader.instance.hideLoaderView()
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                    }
+                    return
+                }
             }
         }
     }

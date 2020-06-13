@@ -330,6 +330,8 @@
                     <navigationItem key="navigationItem" title="Sign In" id="TlY-sm-C0l"/>
                     <connections>
                         <outlet property="emailField" destination="kRA-u3-dgJ" id="XhE-RZ-Yjm"/>
+                        <outlet property="facebookBtnOutlet" destination="zff-zx-lAd" id="ucg-xi-0rU"/>
+                        <outlet property="googleBtnOutlet" destination="abh-fZ-soe" id="rEJ-RW-Hh8"/>
                         <outlet property="passwordField" destination="SoY-xQ-GkS" id="DqK-MY-LBD"/>
                         <outlet property="signInBtnOut" destination="zzT-VF-fHd" id="v5i-ZU-zKN"/>
                         <segue destination="HTb-1U-lut" kind="show" identifier="HomeViewController" id="Gvw-iS-N6g"/>
@@ -1874,10 +1876,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjV-Qa-K41" userLabel="InternelView">
-                                <rect key="frame" x="16" y="99" width="343" height="436"/>
+                                <rect key="frame" x="16" y="99" width="343" height="374.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w3S-tf-KmB">
-                                        <rect key="frame" x="16" y="381" width="311" height="39"/>
+                                        <rect key="frame" x="16" y="324.5" width="311" height="34"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.61176470589999998" blue="0.84313725490000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <state key="normal" title="Schedule Now">
@@ -1888,7 +1890,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gkC-xl-IsN">
-                                        <rect key="frame" x="16" y="281" width="311" height="84"/>
+                                        <rect key="frame" x="16" y="224.5" width="311" height="84"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="3Uv-tR-LPP">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="34"/>
@@ -1913,7 +1915,7 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schedule" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeT-sg-Lw6">
-                                        <rect key="frame" x="16" y="244.5" width="311" height="20.5"/>
+                                        <rect key="frame" x="16" y="188" width="311" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1936,7 +1938,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LOo-RM-raH">
-                                        <rect key="frame" x="16" y="111.5" width="311" height="46.5"/>
+                                        <rect key="frame" x="16" y="105.5" width="311" height="46.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Package Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4h-8H-2pA">
                                                 <rect key="frame" x="0.0" y="0.0" width="113.5" height="20.5"/>
@@ -1982,10 +1984,10 @@
                                     <constraint firstItem="LOo-RM-raH" firstAttribute="leading" secondItem="xjV-Qa-K41" secondAttribute="leading" constant="16" id="kzl-Ss-mJ2"/>
                                     <constraint firstItem="CeT-sg-Lw6" firstAttribute="leading" secondItem="xjV-Qa-K41" secondAttribute="leading" constant="16" id="m56-RF-jDI"/>
                                     <constraint firstItem="K5H-mv-R5h" firstAttribute="leading" secondItem="xjV-Qa-K41" secondAttribute="leading" constant="16" id="uyW-Pu-jKX"/>
-                                    <constraint firstItem="CeT-sg-Lw6" firstAttribute="top" relation="lessThanOrEqual" secondItem="LOo-RM-raH" secondAttribute="bottom" constant="86.5" id="vF7-Yj-yUe"/>
+                                    <constraint firstItem="CeT-sg-Lw6" firstAttribute="top" secondItem="LOo-RM-raH" secondAttribute="bottom" constant="36" id="vF7-Yj-yUe"/>
                                     <constraint firstItem="gkC-xl-IsN" firstAttribute="leading" secondItem="xjV-Qa-K41" secondAttribute="leading" constant="16" id="wPF-8e-crK"/>
                                     <constraint firstAttribute="bottom" secondItem="w3S-tf-KmB" secondAttribute="bottom" constant="16" id="xm9-Ug-4pm"/>
-                                    <constraint firstItem="LOo-RM-raH" firstAttribute="top" secondItem="K5H-mv-R5h" secondAttribute="bottom" constant="50" id="xyk-la-xt2"/>
+                                    <constraint firstItem="LOo-RM-raH" firstAttribute="top" secondItem="K5H-mv-R5h" secondAttribute="bottom" constant="44" id="xyk-la-xt2"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1994,7 +1996,7 @@
                             <constraint firstItem="5P4-SB-APi" firstAttribute="trailing" secondItem="xjV-Qa-K41" secondAttribute="trailing" constant="16" id="2sp-0E-7UX"/>
                             <constraint firstItem="xjV-Qa-K41" firstAttribute="leading" secondItem="5P4-SB-APi" secondAttribute="leading" constant="16" id="3eY-PR-GXX"/>
                             <constraint firstItem="xjV-Qa-K41" firstAttribute="top" secondItem="QDi-zo-yvJ" secondAttribute="bottom" constant="16" id="5PC-w2-zOG"/>
-                            <constraint firstItem="xjV-Qa-K41" firstAttribute="height" secondItem="5P4-SB-APi" secondAttribute="height" multiplier="0.7" id="6im-eO-GKy"/>
+                            <constraint firstItem="xjV-Qa-K41" firstAttribute="height" relation="lessThanOrEqual" secondItem="5P4-SB-APi" secondAttribute="height" multiplier="0.75" id="6im-eO-GKy"/>
                             <constraint firstItem="5P4-SB-APi" firstAttribute="trailing" secondItem="QDi-zo-yvJ" secondAttribute="trailing" constant="16" id="DQ3-xF-MZo"/>
                             <constraint firstItem="QDi-zo-yvJ" firstAttribute="leading" secondItem="5P4-SB-APi" secondAttribute="leading" constant="16" id="sgx-PZ-vcg"/>
                             <constraint firstItem="QDi-zo-yvJ" firstAttribute="top" secondItem="5P4-SB-APi" secondAttribute="top" constant="16" id="tO8-fR-QBD"/>
@@ -3837,7 +3839,7 @@
         <image name="location.fill" catalog="system" width="64" height="56"/>
         <image name="lock" catalog="system" width="64" height="64"/>
         <image name="person" catalog="system" width="64" height="58"/>
-        <image name="person.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="person.circle.fill" catalog="system" width="32" height="32"/>
         <image name="star" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>

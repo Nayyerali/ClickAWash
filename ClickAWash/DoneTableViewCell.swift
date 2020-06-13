@@ -21,6 +21,7 @@ class DoneTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        userImage.roundedImage()
         internelViewOut.layer.cornerRadius      =   10
         internelViewOut.layer.shadowRadius      =   4
         internelViewOut.layer.masksToBounds     =   false

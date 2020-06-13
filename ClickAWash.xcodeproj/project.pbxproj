@@ -102,7 +102,6 @@
 		1708BC3E24670A0000B11007 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1708BC4024670AA800B11007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1708BC4324670AA900B11007 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		1708BC4524670AA900B11007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		170BF4A72481F2F500A31AA4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		170BF4A92481F30600A31AA4 /* EditProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
 		170D642C2481EF00005139BC /* MyJobsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyJobsController.swift; sourceTree = "<group>"; };
@@ -133,6 +132,7 @@
 		1775FE1B246DEE4800C11AAE /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		1775FE1D246DEEB000C11AAE /* SubscriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsViewController.swift; sourceTree = "<group>"; };
 		1775FE1F246DEED900C11AAE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		179108E12492DF8800FFC6E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		179789E02479FBBC00A1980F /* BookWash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookWash.swift; sourceTree = "<group>"; };
 		17A031E3247361B600BCEEED /* SpecialOffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialOffersTableViewCell.swift; sourceTree = "<group>"; };
 		17A9BCD82481F5750021CB7D /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewCell.swift; sourceTree = "<group>"; };
@@ -217,11 +217,11 @@
 				170BF4AB2481F34200A31AA4 /* VendorCells */,
 				1775FE25246DF03400C11AAE /* Helpers */,
 				1708BC4024670AA800B11007 /* Assets.xcassets */,
+				179108E12492DF8800FFC6E0 /* Info.plist */,
 				17BEC44424707CD70002C2B0 /* Back.png */,
 				17BEC44324707CD70002C2B0 /* Menu.png */,
 				1701A1A52468A5D300AA7CD5 /* GoogleService-Info.plist */,
 				1708BC4224670AA900B11007 /* LaunchScreen.storyboard */,
-				1708BC4524670AA900B11007 /* Info.plist */,
 			);
 			path = ClickAWash;
 			sourceTree = "<group>";
@@ -879,6 +879,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ClickAWash/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -900,6 +901,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ClickAWash/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

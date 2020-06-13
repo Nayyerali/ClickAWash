@@ -13,6 +13,8 @@ import SDWebImage
 
 class SideMenu: UITableViewController{
     
+    static var isComingFromSocialMediaPlatforms:Bool!
+    
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var userEmailAddress: UILabel!
@@ -25,14 +27,21 @@ class SideMenu: UITableViewController{
     
     func fetchingUserData() {
         
-        ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, userData) in
+        if SideMenu.isComingFromSocialMediaPlatforms {
             
-            if status {
-                User.userReference = userData!
-                self.updateUserProfile()
-            } else {
-                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
-                    
+            updateUserProfile()
+            
+        } else {
+            
+            ServerCommunication.sharedReference.fetchUserData(userID: Auth.auth().currentUser!.uid) { (status, message, userData) in
+                
+                if status {
+                    User.userReference = userData!
+                    self.updateUserProfile()
+                } else {
+                    Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                        
+                    }
                 }
             }
         }
@@ -44,12 +53,14 @@ class SideMenu: UITableViewController{
         userEmailAddress.text   = User.userReference.email
         
         if let url = URL(string: User.userReference.imageURL) {
+            
+            userImage.sd_cancelCurrentImageLoad()
             self.userImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
+            }
         }
     }
-}
     
-     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch indexPath.row {
             

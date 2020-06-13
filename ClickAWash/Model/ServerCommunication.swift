@@ -57,6 +57,37 @@ public class ServerCommunication {
         }
     }
     
+    func scheduleWorkersToDoTasks(requestSenderName:String, requestSenderImage:String, packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String, shopName:String, completion:@escaping(_ status:Bool,_ message:String) -> Void) {
+        
+        let toDoTasksReference = firebaseFiretore.collection("Todo").document(Worker.workerReference.workerId)
+        
+        toDoTasksReference.setData([
+            "RequestSenderName"     :   requestSenderName,
+            "RequestSenderImage"    :   requestSenderImage,
+            "PackageName"           :   packageName,
+            "PckageDescription"     :   packageDescription,
+            "PackageDetails"        :   packageDetails,
+            "PackagePrice"          :   packagePrice,
+            "BookingTime"           :   bookingTime,
+            "BookingDate"           :   bookingDate,
+            "BookingStatus"         :   bookingStatus,
+            "DiscountCode"          :   discountCode,
+            "UserId"                :   userId,
+            "ShopName"              :   shopName
+            
+        ]) { (error) in
+            
+            if error == nil {
+                
+                completion(true, "Wash Booking is scheduled")
+                
+            } else {
+                
+                completion(false, "Unable to schedule booking")
+            }
+        }
+    }
+    
     func scheduleWashBooking(requestSenderName:String, requestSenderImage:String, packageName:String, packageDescription:String, packageDetails:String, packagePrice:String, bookingTime:String, bookingDate:String, bookingStatus:String, discountCode:String, userId:String, shopName:String, completion:@escaping(_ status:Bool,_ message:String) -> Void) {
         
         //let washBooking = firebaseFiretore.collection("Users").document(userId).collection("WashBookings").document()
@@ -104,7 +135,7 @@ public class ServerCommunication {
                     
                 } else {
                     
-                    completion(false, "Unableto get user data", nil)
+                    completion(false, "Unable to get personal data", nil)
                     
                 }
             } else {
@@ -129,7 +160,7 @@ public class ServerCommunication {
                     
                 } else {
                     
-                    completion(false, "Unableto get worker data", nil)
+                    completion(false, "Unable to get personal data", nil)
                     
                 }
             } else {

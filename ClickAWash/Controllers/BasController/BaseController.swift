@@ -26,16 +26,13 @@ extension BaseController{
         if currentClassName == "RESideMenu" && navControllerCount == 1{
             self.navigationController?.navigationBar.isHidden = false
             self.addSideMenuBarButtonItem()
-            
             return
         }
         
         else if navControllerCount > 1 {
             self.navigationController?.navigationBar.isHidden = true
             self.addBackBarButtonItem()
-
             //return
-            
         } else {
             self.navigationController?.navigationBar.isHidden = false
             

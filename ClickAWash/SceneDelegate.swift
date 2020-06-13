@@ -71,18 +71,28 @@ extension SceneDelegate {
             if let window = self.window {
                 window.rootViewController = nil
                 UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                    //                    sideMenuController.leftViewWidth = window.frame.width * 0.80
+                    //sideMenuController.leftViewWidth = window.frame.width * 0.75
                     self.window?.rootViewController = sideMenuController
                     self.window?.makeKeyAndVisible()
                 }, completion: nil)
             }
+            
         } else if SignInViewController.isComingFromWorkerLogin == true && (Auth.auth().currentUser != nil){
             
-            let destinationStoryBoard         =     UIStoryboard(name: "Vendor", bundle: nil)
-            let initialNavigationController   =     destinationStoryBoard.instantiateViewController(withIdentifier: "InitialNavigation") as! UINavigationController
-            let destinationController         =     destinationStoryBoard.instantiateViewController(identifier: "MyJobsController") as! MyJobsController
-            initialNavigationController.pushViewController(destinationController, animated: false)
+            let storyboard = UIStoryboard(name: "Vendor", bundle: nil)
+            guard let controller = storyboard.instantiateViewController(identifier: "MyJobsController") as? HomeViewController else {return}
+            let leftMenuController = storyboard.instantiateViewController(withIdentifier: "VendorSideMenu")
+            let navController = BaseNavigationController(rootViewController: controller)
+            let sideMenuController = RESideMenu(contentViewController: navController, leftMenuViewController: leftMenuController, rightMenuViewController: nil)
             
+            if let window = self.window {
+                window.rootViewController = nil
+                UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+                    //sideMenuController.leftViewWidth = window.frame.width * 0.75
+                    self.window?.rootViewController = sideMenuController
+                    self.window?.makeKeyAndVisible()
+                }, completion: nil)
+            }
         } else {
             // User is not logged in
             print ("User Not Logged In")

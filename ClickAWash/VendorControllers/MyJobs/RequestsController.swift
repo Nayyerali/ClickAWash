@@ -38,6 +38,16 @@ class RequestsController: UIViewController {
             }
         }
     }
+    
+    @IBAction func acceptBtnPressed(_ sender: Any) {
+        
+//        ServerCommunication.sharedReference.scheduleWorkersToDoTasks(requestSenderName: <#T##String#>, requestSenderImage: <#T##String#>, packageName: <#T##String#>, packageDescription: <#T##String#>, packageDetails: <#T##String#>, packagePrice: <#T##String#>, bookingTime: <#T##String#>, bookingDate: <#T##String#>, bookingStatus: <#T##String#>, discountCode: <#T##String#>, userId: <#T##String#>, shopName: <#T##String#>, completion: <#T##(Bool, String) -> Void#>)
+//
+    }
+    
+    @IBAction func rejectBtnPressed(_ sender: Any) {
+    }
+    
 }
 
 extension RequestsController: UITableViewDelegate, UITableViewDataSource {
