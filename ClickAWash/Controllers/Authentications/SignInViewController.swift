@@ -25,7 +25,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        emailField.text     =   "talha@gmail.com"
+        emailField.text     =   "nayyerali777@yahoo.com"
         passwordField.text  =   "N@yyer@l!777"
         GIDSignIn.sharedInstance().delegate = self
         
@@ -47,6 +47,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     
     @IBAction func forgotPasswordBtn(_ sender: Any) {
+        
+        
         
     }
     
@@ -120,7 +122,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                             CustomLoader.instance.hideLoaderView()
                             self.signInBtnOut.isEnabled = true
                             Alerts.showAlert(controller: self, title: "Error", message: "Unable to Sign in") { (Ok) in
-                                
+
                             }
                         }
                     }
@@ -128,10 +130,18 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     
                     CustomLoader.instance.hideLoaderView()
                     self.signInBtnOut.isEnabled = true
-                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                    
+                    let castedError = error! as NSError
+                    let firebaseError = AuthErrorCode(rawValue: castedError.code)
+            
+                    if firebaseError != nil {
                         
+                        Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+
+                        }
+                        return
                     }
-                    return
+                    
                 }
             }
         }

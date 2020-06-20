@@ -8,31 +8,43 @@
 
 import UIKit
 import FirebaseAuth
+import RESideMenu
 
 class HomeViewController: BaseController {
     
     var vendors = [Vendor]()
     var specialOffer = true
+    var userLocation:String!
     
     @IBOutlet weak var tableViewOut: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // presentLocationViewController()
         tableViewOut.delegate = self
         tableViewOut.dataSource = self
         fetchingVendorsData()
-        
     }
     
-    func presentLocationViewController() {
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationItem.title = userLocation
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
-        controller.present(controller, animated: true){
-            
-        }
+        controller.modalPresentationStyle = .automatic
+        present(controller, animated: true)
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyBoard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
+//        controller.modalPresentationStyle = .automatic
+//        present(controller, animated: true)
+//    }
     
     func fetchingVendorsData () {
         

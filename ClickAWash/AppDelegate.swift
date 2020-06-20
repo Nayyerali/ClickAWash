@@ -12,6 +12,9 @@ import GoogleSignIn
 import IQKeyboardManagerSwift
 import Stripe
 import FBSDKCoreKit
+import GoogleMaps
+import GooglePlaces
+
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
         STPAPIClient.shared().publishableKey = "pk_test_UKYBPG0wRCKuYcKwx2dJjXf800TJHFl4F1"
+        GMSServices.provideAPIKey("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
+        GMSPlacesClient.provideAPIKey("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
         return true
     }
 

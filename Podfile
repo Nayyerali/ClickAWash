@@ -19,4 +19,6 @@ target 'ClickAWash' do
   pod 'FBSDKLoginKit'
   pod 'RESideMenu', '~> 4.0.7'
   pod 'Stripe'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
 end

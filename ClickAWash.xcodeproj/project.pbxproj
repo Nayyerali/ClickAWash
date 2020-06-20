@@ -35,6 +35,7 @@
 		170D643F2481F0A8005139BC /* VendorNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170D643E2481F0A8005139BC /* VendorNotificationsController.swift */; };
 		170DF589246F654B007A0156 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170DF587246F654B007A0156 /* BaseNavigationController.swift */; };
 		170DF58A246F654B007A0156 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170DF588246F654B007A0156 /* BaseController.swift */; };
+		170E25A9249584FB009E7302 /* ChangeLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E25A8249584FB009E7302 /* ChangeLocation.swift */; };
 		1710A5972467819700C7243F /* ServerCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710A5962467819700C7243F /* ServerCommunication.swift */; };
 		1710A599246781B500C7243F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710A598246781B500C7243F /* User.swift */; };
 		1710A59B2467823200C7243F /* Packages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710A59A2467823200C7243F /* Packages.swift */; };
@@ -114,6 +115,7 @@
 		170D643E2481F0A8005139BC /* VendorNotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorNotificationsController.swift; sourceTree = "<group>"; };
 		170DF587246F654B007A0156 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		170DF588246F654B007A0156 /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
+		170E25A8249584FB009E7302 /* ChangeLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLocation.swift; sourceTree = "<group>"; };
 		1710A5962467819700C7243F /* ServerCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommunication.swift; sourceTree = "<group>"; };
 		1710A598246781B500C7243F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1710A59A2467823200C7243F /* Packages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Packages.swift; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				17C23D48246B375400DBA153 /* MapViewController.swift */,
+				170E25A8249584FB009E7302 /* ChangeLocation.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				1710A59B2467823200C7243F /* Packages.swift in Sources */,
 				1710A59F2467826800C7243F /* SignInViewController.swift in Sources */,
 				1775FE16246DEC7800C11AAE /* InviteFriendsViewController.swift in Sources */,
+				170E25A9249584FB009E7302 /* ChangeLocation.swift in Sources */,
 				170BF4AA2481F30600A31AA4 /* EditProfileController.swift in Sources */,
 				17BAF909246CA79800D86D49 /* RateApplicationViewController.swift in Sources */,
 				1710A599246781B500C7243F /* User.swift in Sources */,

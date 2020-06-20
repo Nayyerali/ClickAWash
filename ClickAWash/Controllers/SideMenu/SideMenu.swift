@@ -27,7 +27,7 @@ class SideMenu: UITableViewController{
     
     func fetchingUserData() {
         
-        if SideMenu.isComingFromSocialMediaPlatforms {
+        if SideMenu.isComingFromSocialMediaPlatforms == true {
             
             updateUserProfile()
             
@@ -54,7 +54,7 @@ class SideMenu: UITableViewController{
         
         if let url = URL(string: User.userReference.imageURL) {
             
-            userImage.sd_cancelCurrentImageLoad()
+            //userImage.sd_cancelCurrentImageLoad()
             self.userImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
             }
         }

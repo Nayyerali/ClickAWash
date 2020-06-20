@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1510" y="537"/>
+            <point key="canvasLocation" x="-572" y="536.58170914542734"/>
         </scene>
         <!--Log In Options View Controller-->
         <scene sceneID="o5N-bb-iw7">
@@ -192,7 +192,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lpf-dn-pM4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-799" y="537"/>
+            <point key="canvasLocation" x="140" y="536.58170914542734"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="aed-Pl-3CS">
@@ -276,7 +276,6 @@
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="forgotPasswordBtn:" destination="AQE-IK-Kux" eventType="touchUpInside" id="jEr-0h-gcH"/>
                                     <segue destination="U3Z-bK-i0F" kind="show" id="m1m-Ic-trP"/>
                                 </connections>
                             </button>
@@ -339,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="65m-xE-cGm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="714" y="537"/>
+            <point key="canvasLocation" x="1652" y="536.58170914542734"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="1FR-zG-EoH">
@@ -427,7 +426,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="HTb-1U-lut" kind="show" id="fap-dZ-B3f"/>
+                                            <action selector="goWithSearchedLocation:" destination="p5F-RI-L4f" eventType="touchUpInside" id="nQG-Rr-fLf"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhZ-15-rtv">
@@ -437,6 +436,9 @@
                                         <state key="normal" title="Use Current Location">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="currentLocationBtnPressed:" destination="p5F-RI-L4f" eventType="touchUpInside" id="hDP-WM-rhN"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -468,10 +470,14 @@
                         <viewLayoutGuide key="safeArea" id="tmE-d6-A1d"/>
                     </view>
                     <navigationItem key="navigationItem" title="Location" id="E4x-s5-4Ub"/>
+                    <connections>
+                        <outlet property="enterLocationField" destination="ozi-Fd-Ihj" id="HfR-jz-L6D"/>
+                        <segue destination="HTb-1U-lut" kind="show" identifier="LocationToHomeViewController" id="she-yW-q3J"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ru-YA-Ggs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1564" y="537"/>
+            <point key="canvasLocation" x="2503.1999999999998" y="536.58170914542734"/>
         </scene>
         <!--Map-->
         <scene sceneID="oWG-Er-6Vf">
@@ -914,7 +920,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oKc-Pv-WZj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2454" y="537"/>
+            <point key="canvasLocation" x="3392.8000000000002" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="d2O-kC-JqC">
@@ -954,7 +960,7 @@
             </objects>
             <point key="canvasLocation" x="713" y="1281"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="Azq-oS-QCv">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HTb-1U-lut" customClass="HomeViewController" customModule="ClickAWash" customModuleProvider="target" sceneMemberID="viewController">
@@ -963,7 +969,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="250" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6sa-VT-3rH">
-                                <rect key="frame" x="0.0" y="99" width="375" height="568"/>
+                                <rect key="frame" x="0.0" y="55" width="375" height="612"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -1281,7 +1287,7 @@
                                 </prototypes>
                             </tableView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="wZB-Jn-M7e">
-                                <rect key="frame" x="0.0" y="44" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="BvH-b9-U1q"/>
                                 </constraints>
@@ -1300,7 +1306,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CbM-J1-5Xr"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="NMT-Og-tyQ"/>
+                    <navigationItem key="navigationItem" id="NMT-Og-tyQ"/>
                     <connections>
                         <outlet property="tableViewOut" destination="6sa-VT-3rH" id="QHq-Ru-8pt"/>
                     </connections>
@@ -2856,24 +2862,6 @@
             </objects>
             <point key="canvasLocation" x="2454" y="1263"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Jbr-7K-vMd">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="tsk-tc-KKM" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hNL-vM-Sz8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="HTb-1U-lut" kind="relationship" relationship="rootViewController" id="Oq8-zn-jFi"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1eR-Nd-G2V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3889" y="537"/>
-        </scene>
         <!--Privacy Policy-->
         <scene sceneID="e3G-FR-g0a">
             <objects>
@@ -3180,7 +3168,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tkh-8q-I4c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5660" y="537"/>
+            <point key="canvasLocation" x="6599.1999999999998" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rOL-KA-til">
@@ -3198,7 +3186,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JFO-Xt-MzI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6550" y="537"/>
+            <point key="canvasLocation" x="7488.8000000000002" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0x4-e9-H0o">
@@ -3216,7 +3204,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZL-py-J6r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7514" y="537"/>
+            <point key="canvasLocation" x="8452" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fkH-zv-hby">
@@ -3234,7 +3222,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GS3-re-HoR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8434" y="537"/>
+            <point key="canvasLocation" x="9372" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ypA-IK-nMl">
@@ -3252,7 +3240,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tSl-Tf-2N4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9417" y="537"/>
+            <point key="canvasLocation" x="10356" y="536.58170914542734"/>
         </scene>
         <!--Scheduled Bookings-->
         <scene sceneID="nri-nK-s1b">
@@ -3768,7 +3756,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O2W-QV-m2n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4796" y="537"/>
+            <point key="canvasLocation" x="5735.1999999999998" y="536.58170914542734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1Yp-DB-xJ3">
@@ -3839,7 +3827,7 @@
         <image name="location.fill" catalog="system" width="64" height="56"/>
         <image name="lock" catalog="system" width="64" height="64"/>
         <image name="person" catalog="system" width="64" height="58"/>
-        <image name="person.circle.fill" catalog="system" width="32" height="32"/>
+        <image name="person.circle.fill" catalog="system" width="64" height="60"/>
         <image name="star" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
@@ -3849,7 +3837,7 @@
         <segue reference="pL6-Vr-lw3"/>
         <segue reference="SFn-RJ-cPC"/>
         <segue reference="uzX-cK-jzV"/>
-        <segue reference="Gvw-iS-N6g"/>
+        <segue reference="she-yW-q3J"/>
         <segue reference="Pe7-n3-4OD"/>
         <segue reference="Je7-Ep-4Wn"/>
     </inferredMetricsTieBreakers>
