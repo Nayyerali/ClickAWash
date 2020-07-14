@@ -12,7 +12,7 @@ import FirebaseAuth
 
 class SignUpViewController: UIViewController {
     
-    var tempVariable = true
+    var tempVariable = false
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameField: UITextField!
@@ -28,6 +28,15 @@ class SignUpViewController: UIViewController {
         addGesture()
         addObservsers()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+    }
+    
+    @IBAction func unwindToSignUpFromCustomer(unwindSegue: UIStoryboardSegue) {}
+    
+    @IBAction func unwindToSignUpFromWorker(unwindSegue: UIStoryboardSegue) {}
     
     @IBAction func signUpBtn(_ sender: Any) {
         
@@ -59,17 +68,17 @@ class SignUpViewController: UIViewController {
         CustomLoader.instance.showLoaderView()
         
         if tempVariable {
+            
             Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                
                 if error == nil {
                     
                     print ("User Created with ID \(authResult!.user.uid)")
                     
-
-                    
                     ServerCommunication.sharedReference.uploadWorkerImage(image: self.userImage.image!, workerId: (authResult?.user.uid)!) { (status, response) in
                         
                         if status {
-                            let newUser = Worker(workerName: self.userNameField.text!, workerEmail: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", workerId: (authResult?.user.uid)!, imageURL: response, workerShop: "My Shop")
+                            let newUser = Worker(workerName: self.userNameField.text!, workerEmail: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", workerId: (authResult?.user.uid)!, imageURL: response, workerShop: "My Shop", phoneNumber: "")
                             
                             Worker.workerReference = newUser
                             
@@ -77,7 +86,53 @@ class SignUpViewController: UIViewController {
                                 
                                 if status {
                                     CustomLoader.instance.hideLoaderView()
-                                    self.performSegue(withIdentifier: "Identifier", sender: nil)
+                                    self.performSegue(withIdentifier: "HomeViewController", sender: nil)
+                                } else {
+                                    self.signUpBtnOut.isEnabled = true
+                                    CustomLoader.instance.hideLoaderView()
+                                    Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                                        
+                                    }
+                                }
+                            }
+                        } else {
+                            CustomLoader.instance.hideLoaderView()
+                            self.signUpBtnOut.isEnabled = true
+                            Alerts.showAlert(controller: self, title: "Error", message: response) { (Ok) in
+                            }
+                            return
+                        }
+                    }
+                } else {
+                    
+                    CustomLoader.instance.hideLoaderView()
+                    self.signUpBtnOut.isEnabled = true
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                    }
+                    return
+                    print(error!.localizedDescription)
+                }
+            }
+        } else {
+            
+            Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
+                
+                if error == nil {
+                    
+                    print ("User Created with ID \(authResult!.user.uid)")
+                    
+                    ServerCommunication.sharedReference.uploadImage(image: self.userImage.image!, userId: (authResult?.user.uid)!) { (status, response) in
+                        
+                        if status {
+                            let newUser = User(userName: self.userNameField.text!, email: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", userId: (authResult?.user.uid)!, imageURL: response)
+                            
+                            User.userReference = newUser
+                            
+                            ServerCommunication.sharedReference.uploadUserData(userData: newUser.userDictionary()) { (status, message) in
+                                
+                                if status {
+                                    CustomLoader.instance.hideLoaderView()
+                                    self.performSegue(withIdentifier: "HomeViewController", sender: nil)
                                 } else {
                                     self.signUpBtnOut.isEnabled = true
                                     CustomLoader.instance.hideLoaderView()
@@ -97,52 +152,11 @@ class SignUpViewController: UIViewController {
                 } else {
                     CustomLoader.instance.hideLoaderView()
                     self.signUpBtnOut.isEnabled = true
-                    print(error?.localizedDescription)
+                    Alerts.showAlert(controller: self, title: "Error", message: error!.localizedDescription) { (Ok) in
+                                       }
+                    print(error!.localizedDescription)
                 }
             }
-        } else {
-        
-        Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authResult, error) in
-            if error == nil {
-                
-                print ("User Created with ID \(authResult!.user.uid)")
-                
-
-                
-                ServerCommunication.sharedReference.uploadImage(image: self.userImage.image!, userId: (authResult?.user.uid)!) { (status, response) in
-                    
-                    if status {
-                        let newUser = User(userName: self.userNameField.text!, email: self.emailField.text!, referralCode: self.referralCodeField.text!, location: "", userId: (authResult?.user.uid)!, imageURL: response)
-                        
-                        User.userReference = newUser
-                        
-                        ServerCommunication.sharedReference.uploadUserData(userData: newUser.userDictionary()) { (status, message) in
-                            
-                            if status {
-                                CustomLoader.instance.hideLoaderView()
-                                self.performSegue(withIdentifier: "Identifier", sender: nil)
-                            } else {
-                                self.signUpBtnOut.isEnabled = true
-                                CustomLoader.instance.hideLoaderView()
-                                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
-                                    
-                                }
-                            }
-                        }
-                    } else {
-                        CustomLoader.instance.hideLoaderView()
-                        self.signUpBtnOut.isEnabled = true
-                        Alerts.showAlert(controller: self, title: "Error", message: response) { (Ok) in
-                        }
-                        return
-                    }
-                }
-            } else {
-                CustomLoader.instance.hideLoaderView()
-                self.signUpBtnOut.isEnabled = true
-                print(error?.localizedDescription)
-            }
-        }
         }
     }
     

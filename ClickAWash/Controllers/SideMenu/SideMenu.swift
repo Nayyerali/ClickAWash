@@ -8,8 +8,9 @@
 
 import UIKit
 import FirebaseAuth
-import RESideMenu
 import SDWebImage
+import FBSDKLoginKit
+import SideMenu
 
 class SideMenu: UITableViewController{
     
@@ -49,12 +50,11 @@ class SideMenu: UITableViewController{
     
     func updateUserProfile() {
         
-        username.text           = User.userReference.userName
-        userEmailAddress.text   = User.userReference.email
+        username.text           =   User.userReference.userName
+        userEmailAddress.text   =   User.userReference.email
         
         if let url = URL(string: User.userReference.imageURL) {
             
-            //userImage.sd_cancelCurrentImageLoad()
             self.userImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
             }
         }
@@ -65,61 +65,59 @@ class SideMenu: UITableViewController{
         switch indexPath.row {
             
         case 1:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let homeViewController = storyboard.instantiateViewController(identifier: "HomeViewController") as! HomeViewController
-            self.sideMenuViewController.setContentViewController(homeViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "ToHome", sender: nil)
             
         case 2:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let myBookingsViewController = storyboard.instantiateViewController(identifier: "MyBookingsViewController") as! MyBookingsViewController
-            self.sideMenuViewController.setContentViewController(myBookingsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "MyBookingsViewController", sender: nil)
             
         case 3:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let rateApplicationViewController = storyboard.instantiateViewController(identifier: "RateApplicationViewController") as! RateApplicationViewController
-            self.sideMenuViewController.setContentViewController(rateApplicationViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "RateApplicationViewController", sender: nil)
             
         case 4:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let inviteFriendsViewController = storyboard.instantiateViewController(identifier: "InviteFriendsViewController") as! InviteFriendsViewController
-            self.sideMenuViewController.setContentViewController(inviteFriendsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "InviteFriendsViewController", sender: nil)
             
         case 5:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let walletViewController = storyboard.instantiateViewController(identifier: "WalletViewController") as! WalletViewController
-            self.sideMenuViewController.setContentViewController(walletViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "WalletViewController", sender: nil)
             
         case 6:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let notificationsViewController = storyboard.instantiateViewController(identifier: "NotificationsViewController") as! NotificationsViewController
-            self.sideMenuViewController.setContentViewController(notificationsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "NotificationsViewController", sender: nil)
             
         case 7:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let subscriptionsViewController = storyboard.instantiateViewController(identifier: "SubscriptionsViewController") as! SubscriptionsViewController
-            self.sideMenuViewController.setContentViewController(subscriptionsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "SubscriptionsViewController", sender: nil)
             
         case 8:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let settingsViewController = storyboard.instantiateViewController(identifier: "SettingsViewController") as! SettingsViewController
-            self.sideMenuViewController.setContentViewController(settingsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "SettingsViewController", sender: nil)
             
         case 9:
-            let firebaseAuth = Auth.auth()
-            do {
-                try firebaseAuth.signOut()
-                User.userReference = nil
-                self.navigationController?.navigationController?.popToRootViewController(animated: true)
-            } catch let signOutError as NSError {
-                print ("Error signing out: %@", signOutError)
+            Alerts.showLogOutAlert(controller: self, title: "Logout", message: "Are you sure you want to logout", actiontitle: "Logout") { (okBtnPressed) in
+                
+                if okBtnPressed {
+                    
+                    let firebaseAuth = Auth.auth()
+                    
+                    do {
+                        try firebaseAuth.signOut()
+                        User.userReference = nil
+                        self.dismiss(animated: false, completion: nil)
+                        self.performSegue(withIdentifier: "ToSignUpFromCustomer", sender: self)
+                        
+                    } catch let signOutError as NSError {
+                        
+                        print ("Error signing out: %@", signOutError)
+                    }
+                    
+                } else {
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
             
         default: break
@@ -127,4 +125,3 @@ class SideMenu: UITableViewController{
         }
     }
 }
-

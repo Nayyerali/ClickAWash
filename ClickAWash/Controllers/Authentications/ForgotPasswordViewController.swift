@@ -20,6 +20,11 @@ class ForgotPasswordViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+    }
+    
     @IBAction func sendPasswordRequest(_ sender: Any) {
         
         sendPasswordRequestBtn.isEnabled = false

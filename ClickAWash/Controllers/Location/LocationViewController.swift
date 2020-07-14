@@ -8,9 +8,11 @@
 
 import UIKit
 import CoreLocation
+import GoogleMaps
+import GooglePlaces
 
 class LocationViewController: UIViewController, CLLocationManagerDelegate {
-
+    
     var segueIdentifier = "LocationToHomeViewController"
     var userCurrentLocation:String!
     var userSearchedLocation:String!
@@ -28,16 +30,25 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func goWithSearchedLocation(_ sender: Any) {
         
         usingSearchedLocation = true
+        
         self.dismiss(animated: true) {
-            
+            HomeViewController.userLocation = self.userSearchedLocation
         }
+    }
+    
+    @IBAction func enterLocationFieldTapped(_ sender: Any) {
+        
+        enterLocationField.resignFirstResponder()
+        let autoCompleteController = GMSAutocompleteViewController()
+        autoCompleteController.delegate = self
+        present(autoCompleteController, animated: true)
     }
     
     @IBAction func currentLocationBtnPressed(_ sender: Any) {
         
         usingCurrentLocation = true
         self.dismiss(animated: true) {
-            
+            HomeViewController.userLocation = self.userCurrentLocation
         }
     }
     
@@ -56,11 +67,11 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-        //MARK: - location delegate methods
+    //MARK: - location delegate methods
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation :CLLocation = locations[0] as CLLocation
-
+        
         let geocoder = CLGeocoder()
         
         geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
@@ -68,6 +79,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
             if (error != nil){
                 
                 print("error in reverseGeocode")
+                return
             }
             
             let placemark = placemarks! as [CLPlacemark]
@@ -75,9 +87,8 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
             if placemark.count>0{
                 
                 let placemark = placemarks![0]
-
+                
                 self.userCurrentLocation = "\(placemark.locality!), \(placemark.administrativeArea!), \(placemark.country!)"
-                print (self.userCurrentLocation!)
             }
         }
     }
@@ -86,18 +97,28 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         
         print("Error \(error)")
     }
+}
+
+extension LocationViewController: GMSAutocompleteViewControllerDelegate {
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         
-        if segue.identifier == segueIdentifier && usingCurrentLocation == true {
+        print ("Place name == \(String(describing: place.name))")
+        dismiss(animated: true, completion: nil)
+        enterLocationField.text = place.name
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        
+        Alerts.showAlert(controller: self, title: "Error", message: error.localizedDescription) { (Ok) in
             
-            let destination = segue.destination as! HomeViewController
-            destination.userLocation = userCurrentLocation
-            print (userCurrentLocation!)
-        } else if segue.identifier == segueIdentifier && usingSearchedLocation == true {
-            
-            let destination = segue.destination as! HomeViewController
-            destination.userLocation = userSearchedLocation
         }
+        print (error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        
+        dismiss(animated: true, completion: nil)
     }
 }

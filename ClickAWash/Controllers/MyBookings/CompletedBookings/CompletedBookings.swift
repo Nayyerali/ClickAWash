@@ -19,7 +19,7 @@ class CompletedBookings: UIViewController {
         super.viewDidLoad()
         completedWashTableView.delegate     =   self
         completedWashTableView.dataSource   =   self
-        fetchingUsersCompletedBookings()
+        //fetchingUsersCompletedBookings()
     }
     
     func fetchingUsersCompletedBookings() {

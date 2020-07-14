@@ -19,8 +19,9 @@ struct Worker {
     var workerId      :   String
     var imageURL      :   String
     var workerShop    :   String
+    var phoneNumber   :   String
     
-    init(workerName:String, workerEmail:String, referralCode:String, location:String, workerId:String, imageURL:String, workerShop:String) {
+    init(workerName:String, workerEmail:String, referralCode:String, location:String, workerId:String, imageURL:String, workerShop:String, phoneNumber:String) {
         
         self.workerName     =   workerName
         self.workerEmail    =   workerEmail
@@ -29,6 +30,7 @@ struct Worker {
         self.workerId       =   workerId
         self.imageURL       =   imageURL
         self.workerShop     =   workerShop
+        self.phoneNumber    =   phoneNumber
     }
     
     init (workerDict:[String:Any]) {
@@ -39,7 +41,8 @@ struct Worker {
         self.location       =   workerDict[FirebaseKeys.location.rawValue] as! String
         self.workerId       =   workerDict[FirebaseKeys.WorkerId.rawValue] as! String
         self.imageURL       =   workerDict[FirebaseKeys.ImageURL.rawValue] as! String
-        self.workerShop    =   workerDict[FirebaseKeys.WorkerShop.rawValue] as! String
+        self.workerShop     =   workerDict[FirebaseKeys.WorkerShop.rawValue] as! String
+        self.phoneNumber    =   workerDict[FirebaseKeys.PhoneNumber.rawValue] as! String
     }
     
     enum FirebaseKeys:String {
@@ -51,6 +54,7 @@ struct Worker {
         case WorkerId       =   "WorkerId"
         case ImageURL       =   "ImageURL"
         case WorkerShop     =   "WorkerShop"
+        case PhoneNumber    =   "WorkerPhoneNumber"
     }
     
     func workerDictionary()->[String:Any] {
@@ -62,6 +66,7 @@ struct Worker {
             FirebaseKeys.location.rawValue:self.location,
             FirebaseKeys.WorkerId.rawValue:self.workerId,
             FirebaseKeys.WorkerShop.rawValue:self.workerShop,
-            FirebaseKeys.ImageURL.rawValue:self.imageURL]
+            FirebaseKeys.ImageURL.rawValue:self.imageURL,
+            FirebaseKeys.PhoneNumber.rawValue:self.phoneNumber]
     }
 }

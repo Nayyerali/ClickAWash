@@ -24,6 +24,7 @@ class RequestsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        userImage.roundedImage()
         internelStackView.layer.cornerRadius    =   10
         packagePrice.layer.cornerRadius         =   10
         internelViewOut.layer.cornerRadius      =   10
@@ -38,10 +39,6 @@ class RequestsTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-    }
-    
-    @IBAction func acceptBtnPressed(_ sender: Any) {
         
     }
     

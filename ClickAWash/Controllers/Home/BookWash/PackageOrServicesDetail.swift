@@ -17,6 +17,8 @@ class PackageOrServicesDetail: UIViewController {
     var selectedPackagePrice:String!
     var serviceDetails:BookWash!
     var vendorShopName:String!
+    var datePicker: UIDatePicker?
+    var timePicker: UIDatePicker?
     
     @IBOutlet weak var packageName: UILabel!
     @IBOutlet weak var packageDescription: UILabel!
@@ -32,6 +34,61 @@ class PackageOrServicesDetail: UIViewController {
         super.viewDidLoad()
         setUpElements()
         setUpPackageDetails()
+        datePickerViewForDateField()
+        datePickerViewForTimeField()
+    }
+    
+    func datePickerViewForDateField() {
+        
+        datePicker = UIDatePicker()
+        let currentDate = Date()
+        let oneDay = 24 * 60 * 60
+        let minDate = currentDate.addingTimeInterval(TimeInterval(0 * oneDay)) // before 00 days from now
+        let maxDate = currentDate.addingTimeInterval(TimeInterval(1000 * oneDay)) // upto 1000 Days from now
+        
+        datePicker?.minimumDate = minDate
+        datePicker?.maximumDate = maxDate
+        datePicker?.datePickerMode = .date
+        dateField.inputView = datePicker
+        datePicker?.addTarget(self, action: #selector(PackageOrServicesDetail.dateChanged(datePicker:)), for: .valueChanged)
+        
+        let tapGasture = UITapGestureRecognizer(target: self, action: #selector(PackageOrServicesDetail.viewTapped(gestureRecognizer:)))
+        view.addGestureRecognizer(tapGasture)
+    }
+    
+    @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer){
+        view.endEditing(true)
+    }
+    
+    @objc func dateChanged(datePicker: UIDatePicker){
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MMM-yyyy"
+        dateField.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    func datePickerViewForTimeField() {
+        
+        timePicker = UIDatePicker()
+        timePicker?.datePickerMode = .time
+        timingField.inputView = timePicker
+        timePicker?.addTarget(self, action: #selector(PackageOrServicesDetail.timingChanged(datePicker:)), for: .valueChanged)
+        
+        let tapGasture = UITapGestureRecognizer(target: self, action: #selector(PackageOrServicesDetail.viewTappedAfterSelectingTiming(gestureRecognizer:)))
+        view.addGestureRecognizer(tapGasture)
+        
+    }
+    
+    @objc func viewTappedAfterSelectingTiming(gestureRecognizer: UITapGestureRecognizer){
+        view.endEditing(true)
+    }
+    
+    @objc func timingChanged(datePicker: UIDatePicker){
+        let timeFormatter = DateFormatter()
+        //        let date = Date()
+        timeFormatter.timeZone = .autoupdatingCurrent
+        timeFormatter.timeStyle = .short
+        timingField.text = timeFormatter.string(from: datePicker.date)
     }
     
     func setUpElements(){
@@ -55,9 +112,18 @@ class PackageOrServicesDetail: UIViewController {
     
     @IBAction func scheduleNowBtn(_ sender: Any) {
         
-        if timingField.text == nil || dateField.text == "" || dicountCodeField.text == "" {
+        
+        if timingField.text == nil || dateField.text == "" {
             
             Alerts.showAlert(controller: self, title: "Fields Error", message: "Please fill all fields") { (Ok) in
+                
+            }
+            
+            return
+            
+        } else if dicountCodeField.text == "" {
+            
+            Alerts.showAlert(controller: self, title: "No Discount Code ?", message: "If you dont have discount  coupon write 0 in the field ") { (Ok) in
                 
             }
             

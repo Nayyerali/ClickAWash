@@ -8,26 +8,23 @@
 
 import UIKit
 import FirebaseAuth
-import RESideMenu
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     static let shared = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+ 
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
-        
-        // guard let windowScene = (scene as? UIWindowScene) else { return }
-        // self.window = UIWindow(windowScene: windowScene)
-        //self.changeRootViewController()
-        //self.checkForCurrentUser()
+       
+        self.checkForCurrentUser()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
+        
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
@@ -56,67 +53,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
 }
+
 extension SceneDelegate {
     
-    func changeRootViewController(){
-        
-        if let _ = Auth.auth().currentUser{
-            //Logged in
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let controller = storyboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else {return}
-            let leftMenuController = storyboard.instantiateViewController(withIdentifier: "SideMenu")
-            let navController = BaseNavigationController(rootViewController: controller)
-            let sideMenuController = RESideMenu(contentViewController: navController, leftMenuViewController: leftMenuController, rightMenuViewController: nil)
+    func checkForCurrentUser(){
+
+        if UserDefaults.standard.bool(forKey: "CustomerWasLoggedIn") == true && (Auth.auth().currentUser != nil){
             
-            if let window = self.window {
-                window.rootViewController = nil
-                UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                    //sideMenuController.leftViewWidth = window.frame.width * 0.75
-                    self.window?.rootViewController = sideMenuController
-                    self.window?.makeKeyAndVisible()
-                }, completion: nil)
-            }
+            //Customer was already Loggedin
+            print("Customer is logged in")
+            let storyboard          =   UIStoryboard(name: "Main", bundle: nil)
+            let initialNavigation   =   storyboard.instantiateViewController(withIdentifier: "initialNavigation") as! UINavigationController
+            let ViewController      =   storyboard.instantiateViewController(withIdentifier: "HomeViewController")
+            initialNavigation.pushViewController(ViewController, animated: false)
             
-        } else if SignInViewController.isComingFromWorkerLogin == true && (Auth.auth().currentUser != nil){
+            self.window?.rootViewController = initialNavigation
             
-            let storyboard = UIStoryboard(name: "Vendor", bundle: nil)
-            guard let controller = storyboard.instantiateViewController(identifier: "MyJobsController") as? HomeViewController else {return}
-            let leftMenuController = storyboard.instantiateViewController(withIdentifier: "VendorSideMenu")
-            let navController = BaseNavigationController(rootViewController: controller)
-            let sideMenuController = RESideMenu(contentViewController: navController, leftMenuViewController: leftMenuController, rightMenuViewController: nil)
+        } else if (Auth.auth().currentUser != nil){
             
-            if let window = self.window {
-                window.rootViewController = nil
-                UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                    //sideMenuController.leftViewWidth = window.frame.width * 0.75
-                    self.window?.rootViewController = sideMenuController
-                    self.window?.makeKeyAndVisible()
-                }, completion: nil)
-            }
+            // Worker wass logged in
+            print("Worker is logged in")
+            RequestsController.comingAsAlreadyLoggedInUser = true
+            VendorSideMenu.comingDirectlyAsAlreadyLoggedInUser = true
+            let vendorStoryBoard     =   UIStoryboard(name: "Vendor", bundle: nil)
+            let initialNavigation    =   vendorStoryBoard.instantiateViewController(withIdentifier: "initialNavigationOfVendor") as! UINavigationController
+            let ViewController       =   vendorStoryBoard.instantiateViewController(withIdentifier: "MyJobsController")
+            initialNavigation.pushViewController(ViewController, animated: false)
+            
+            self.window?.rootViewController = initialNavigation
+            
         } else {
-            // User is not logged in
-            print ("User Not Logged In")
+            
+            print("User is not loggedin")
         }
     }
-    
-    //    func checkForCurrentUser(){
-    //        if let _ = Auth.auth().currentUser{
-    //            // User is already Loggedin
-    //            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //
-    //            let initialNavigation = storyboard.instantiateViewController(withIdentifier: "initialNavigation") as! UINavigationController
-    //
-    //            let ViewController = storyboard.instantiateViewController(withIdentifier: "LocationView") as! UIViewController
-    //            initialNavigation.setNavigationBarHidden(true, animated: false)
-    //            initialNavigation.pushViewController(ViewController, animated: false)
-    //
-    //            self.window?.rootViewController = initialNavigation
-    //
-    //
-    //
-    //        }else{
-    //            // User is not loggedin
-    //            print("not logged in")
-    //        }
-    //    }
 }

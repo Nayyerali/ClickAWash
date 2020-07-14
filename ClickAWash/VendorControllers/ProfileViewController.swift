@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ProfileViewController: UIViewController {
 
@@ -17,6 +18,19 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        workerImage.roundedImage()
+        settingUpWorkerProfile()
+    }
+    
+    func settingUpWorkerProfile() {
+        
+        workerName.text             =   Worker.workerReference.workerName
+        workerEmail.text            =   Worker.workerReference.workerEmail
+        workerPhoneNumber.text      =   Worker.workerReference.phoneNumber
+        
+        if let url = URL(string: Worker.workerReference.imageURL) {
+            workerImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
+            }
+        }
     }
 }

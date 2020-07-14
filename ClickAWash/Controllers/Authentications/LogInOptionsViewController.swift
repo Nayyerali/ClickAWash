@@ -17,8 +17,15 @@ class LogInOptionsViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        LoginAsWorker = false
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+    }
+    
     @IBAction func signInAsVendor(_ sender: Any) {
         
+        LoginAsWorker = true
         performSegue(withIdentifier: "LogInOptionsViewController", sender: nil)
         
     }
@@ -26,8 +33,8 @@ class LogInOptionsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "LogInOptionsViewController" {
-            let _ = segue.destination as! SignInViewController
-            SignInViewController.isComingFromWorkerLogin = LoginAsWorker
+            let destination = segue.destination as! SignInViewController
+            destination.isComingFromWorkerLogin = LoginAsWorker
         }
     }
 }

@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import SideMenu
 import SDWebImage
-import RESideMenu
 import FirebaseAuth
 
 class VendorSideMenu: UITableViewController {
+    
+    static var comingDirectlyAsAlreadyLoggedInUser:Bool!
     
     @IBOutlet weak var workerImage: UIImageView!
     @IBOutlet weak var workerName: UILabel!
@@ -28,9 +30,12 @@ class VendorSideMenu: UITableViewController {
         ServerCommunication.sharedReference.fetchWorkerData(workerID: Auth.auth().currentUser!.uid) { (status, message, workerData) in
             
             if status {
+                
                 Worker.workerReference = workerData!
                 self.updateWorkerrProfile()
+                
             } else {
+                
                 Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
                     
                 }
@@ -43,7 +48,7 @@ class VendorSideMenu: UITableViewController {
         workerName.text    =    Worker.workerReference.workerName
         workerEmail.text   =    Worker.workerReference.workerEmail
         
-        if let url = URL(string: User.userReference.imageURL) {
+        if let url = URL(string: Worker.workerReference.imageURL) {
             self.workerImage.sd_setImage(with: url, placeholderImage: UIImage(named: "PlaceHolderImage"), options: SDWebImageOptions.continueInBackground) { (image, error, cacheType, url) in
             }
         }
@@ -54,43 +59,77 @@ class VendorSideMenu: UITableViewController {
         switch indexPath.row {
             
         case 0:
-            let storyboard = UIStoryboard.init(name: "Vendor", bundle: nil)
-            let profileViewController = storyboard.instantiateViewController(identifier: "ProfileViewController") as! ProfileViewController
-            self.sideMenuViewController.setContentViewController(profileViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "ProfileViewController", sender: nil)
             
         case 1:
-            let storyboard = UIStoryboard.init(name: "Vendor", bundle: nil)
-            let myJobsController = storyboard.instantiateViewController(identifier: "MyJobsController") as! MyJobsController
-            self.sideMenuViewController.setContentViewController(myJobsController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            //self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "ToJob", sender: nil)
             
         case 2:
-            let storyboard = UIStoryboard.init(name: "Vendor", bundle: nil)
-            let companyProfileViewController = storyboard.instantiateViewController(identifier: "CompanyProfileViewController") as! CompanyProfileViewController
-            self.sideMenuViewController.setContentViewController(companyProfileViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "CompanyProfileViewController", sender: nil)
             
         case 3:
-            let storyboard = UIStoryboard.init(name: "Vendor", bundle: nil)
-            let vendorNotificationsController = storyboard.instantiateViewController(identifier: "VendorNotificationsController") as! VendorNotificationsController
-            self.sideMenuViewController.setContentViewController(vendorNotificationsController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "VendorNotificationsController", sender: nil)
             
         case 4:
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let settingsViewController = storyboard.instantiateViewController(identifier: "SettingsViewController") as! SettingsViewController
-            self.sideMenuViewController.setContentViewController(settingsViewController, animated: true)
-            self.sideMenuViewController.hideViewController()
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "WorkerSettings", sender: nil)
             
         case 5:
-            let firebaseAuth = Auth.auth()
-            do {
-                try firebaseAuth.signOut()
-                User.userReference = nil
-                self.navigationController?.navigationController?.popToRootViewController(animated: true)
-            } catch let signOutError as NSError {
-                print ("Error signing out: %@", signOutError)
+            
+            if VendorSideMenu.comingDirectlyAsAlreadyLoggedInUser == true {
+                
+                Alerts.showLogOutAlert(controller: self, title: "Logout", message: "Are you sure you want to logout", actiontitle: "Logout") { (okBtnPressed) in
+                    
+                    if okBtnPressed {
+                        
+                        let firebaseAuth = Auth.auth()
+                        
+                        do {
+                            try firebaseAuth.signOut()
+                            Worker.workerReference = nil
+                            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                            let signUpViewController = storyboard.instantiateViewController(identifier: "SignUpViewController") as! SignUpViewController
+                            let nav = UINavigationController(rootViewController: signUpViewController)
+                            nav.navigationItem.backBarButtonItem?.tintColor = UIColor.black
+                            UIApplication.shared.keyWindow?.rootViewController = nav
+                            
+                        } catch let signOutError as NSError {
+                            
+                            print ("Error signing out: %@", signOutError)
+                        }
+                        
+                    } else {
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            } else {
+                
+                Alerts.showLogOutAlert(controller: self, title: "Logout", message: "Are you sure you want to logout", actiontitle: "Logout") { (okBtnPressed) in
+                    
+                    if okBtnPressed {
+                        
+                        let firebaseAuth = Auth.auth()
+                        
+                        do {
+                            try firebaseAuth.signOut()
+                            Worker.workerReference = nil
+                            self.performSegue(withIdentifier: "unwindToSignUpFromWorker", sender: self)
+                            
+                        } catch let signOutError as NSError {
+                            
+                            print ("Error signing out: %@", signOutError)
+                        }
+                        
+                    } else {
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
             }
             
         default: break
@@ -98,3 +137,5 @@ class VendorSideMenu: UITableViewController {
         }
     }
 }
+
+

@@ -7,44 +7,72 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class MyJobsController: UIViewController {
-
+    
     @IBOutlet weak var segmentedController: UISegmentedControl!
-    @IBOutlet weak var doneContainerView: UIView!
-    @IBOutlet weak var ongoingContainerView: UIView!
-    @IBOutlet weak var todoContainerView: UIView!
-    @IBOutlet weak var requestsContainerView: UIView!
+    @IBOutlet weak var bottomViewForControllers: UIView!
+    
+    let storyBoard = UIStoryboard(name: "Vendor", bundle: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentedController.selectedSegmentIndex = 0
+        self.title = "My Jobs"
+        let child = storyBoard.instantiateViewController(identifier: "RequestsController") as! RequestsController
+        self.add(child)
     }
+
+    func add(_ child: UIViewController) {
+        addChild(child)
+        bottomViewForControllers.addSubview(child.view)
+        child.didMove(toParent: self)
+    }
+    
+    @IBAction func unwindToJob(unwindSegue: UIStoryboardSegue) {}
     
     @IBAction func segmentedControllerChanged(_ sender: Any) {
         
-        switch segmentedController.selectedSegmentIndex {
-
-        case 1:
-            requestsContainerView.alpha =   0
-            ongoingContainerView.alpha  =   1
-            todoContainerView.alpha     =   0
-            doneContainerView.alpha     =   0
-        case 2:
-            requestsContainerView.alpha =   0
-            ongoingContainerView.alpha  =   0
-            todoContainerView.alpha     =   1
-            doneContainerView.alpha     =   0
-        case 3:
-            requestsContainerView.alpha =   0
-            ongoingContainerView.alpha  =   0
-            todoContainerView.alpha     =   0
-            doneContainerView.alpha     =   1
-        default:
-            requestsContainerView.alpha =   1
-            ongoingContainerView.alpha  =   0
-            todoContainerView.alpha     =   0
-            doneContainerView.alpha     =   0
+        let childControllers = self.children
+        for childContoller in childControllers{
+            childContoller.willMove(toParent: nil)
+            childContoller.view.removeFromSuperview()
+            childContoller.removeFromParent()
         }
+        
+        switch segmentedController.selectedSegmentIndex {
+            
+        case 0:
+            let child = storyBoard.instantiateViewController(identifier: "RequestsController") as! RequestsController
+            self.add(child)
+        case 1:
+            let child = storyBoard.instantiateViewController(identifier: "TodoController") as! TodoController
+            self.add(child)
+        case 2:
+            let child = storyBoard.instantiateViewController(identifier: "OngoingController") as! OngoingController
+            self.add(child)
+        case 3:
+            let child = storyBoard.instantiateViewController(identifier: "DoneController") as! DoneController
+            self.add(child)
+        default:
+            break
+        }
+    }
+}
+
+extension MyJobsController {
+    
+    func add(_ child: UIViewController, _ view: UIView) {
+        view.addSubview(child.view)
+        addChild(child)
+        child.didMove(toParent: self)
+    }
+    
+    func remove() {
+        
+        guard parent != nil else { return }
+        
+        willMove(toParent: nil)
+        removeFromParent()
     }
 }

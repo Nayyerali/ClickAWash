@@ -8,13 +8,12 @@
 
 import UIKit
 import FirebaseAuth
-import RESideMenu
 
-class HomeViewController: BaseController {
-    
+class HomeViewController: UIViewController, ChangeLocationDelegate  {
+
     var vendors = [Vendor]()
     var specialOffer = true
-    var userLocation:String!
+    static var userLocation:String!
     
     @IBOutlet weak var tableViewOut: UITableView!
     
@@ -23,28 +22,94 @@ class HomeViewController: BaseController {
         tableViewOut.delegate = self
         tableViewOut.dataSource = self
         fetchingVendorsData()
+        
+        weak var  controller = storyboard?.instantiateViewController(identifier: "LocationViewController") as? LocationViewController
+        controller!.modalPresentationStyle = .fullScreen
+        present(controller!, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationItem.title = userLocation
+        self.title = HomeViewController.userLocation
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    func newLocationDetail(newLocation: String) {
+            
+        HomeViewController.self.userLocation = newLocation
+        print ("New Location is \(HomeViewController.self.userLocation!)")
+    }
+    
+    @IBAction func unwindToHome(unwindSegue: UIStoryboardSegue) {}
+    
+    @IBAction func goTomap(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "SegueToMap", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "SegueToMap" {
+            
+            let destinationCOntroller = segue.destination as! ChangeLocation
+            destinationCOntroller.changeLocationProtocol = self
+        }
+    }
+    
+    @IBAction func bookWashFromNearBy(_ sender: UIButton) {
+        
+        CustomLoader.instance.showLoaderView()
+        
+        let buttonPosition = sender.convert(CGPoint.zero, to: self.tableViewOut)
+        let indexPath = self.tableViewOut.indexPathForRow(at:buttonPosition)
+        let _ = tableViewOut.cellForRow(at: indexPath!) as! NearByTableViewCell
+        
+        let vendorID = vendors[indexPath!.row].vendorId
+        
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyBoard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
-        controller.modalPresentationStyle = .automatic
-        present(controller, animated: true)
+        let bookWashController = storyBoard.instantiateViewController(identifier: "BookCarWashViewController") as! BookCarWashViewController
+        
+        ServerCommunication.sharedReference.fetchVendorDataWithID(vendorID: vendorID) { (status, message, vendor) in
+            
+            if status{
+                CustomLoader.instance.hideLoaderView()
+                bookWashController.vendorDataForAboutView = vendor
+                self.navigationController?.pushViewController(bookWashController, animated: true)
+                
+            } else {
+                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                    CustomLoader.instance.hideLoaderView()
+                }
+                return
+            }
+        }
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyBoard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
-//        controller.modalPresentationStyle = .automatic
-//        present(controller, animated: true)
-//    }
+    @IBAction func bookWashFromSpecialOffers(_ sender: UIButton) {
+        
+        let buttonPosition = sender.convert(CGPoint.zero, to: self.tableViewOut)
+        let indexPath = self.tableViewOut.indexPathForRow(at:buttonPosition)
+        let _ = self.tableViewOut.cellForRow(at: indexPath!) as! SpecialOffersTableViewCell
+        
+        let vendorID = vendors[indexPath!.row].vendorId
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let bookWashController = storyBoard.instantiateViewController(identifier: "BookCarWashViewController") as! BookCarWashViewController
+        
+        ServerCommunication.sharedReference.fetchVendorDataWithID(vendorID: vendorID) { (status, message, vendor) in
+            
+            if status{
+                CustomLoader.instance.hideLoaderView()
+                bookWashController.vendorDataForAboutView = vendor
+                self.navigationController?.pushViewController(bookWashController, animated: true)
+                
+            } else {
+                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+                    CustomLoader.instance.hideLoaderView()
+                }
+                return
+            }
+        }
+    }
     
     func fetchingVendorsData () {
         
@@ -99,29 +164,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return specialOfferCell
         }
     }
-   
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        CustomLoader.instance.showLoaderView()
-        
-        let vendorID = vendors[indexPath.row].vendorId
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let bookWashController = storyBoard.instantiateViewController(identifier: "BookCarWashViewController") as! BookCarWashViewController
-        
-        ServerCommunication.sharedReference.fetchVendorDataWithID(vendorID: vendorID) { (status, message, vendor) in
-            
-            if status{
-                CustomLoader.instance.hideLoaderView()
-                bookWashController.vendorDataForAboutView = vendor
-                self.navigationController?.pushViewController(bookWashController, animated: true)
-                
-            } else {
-                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
-                CustomLoader.instance.hideLoaderView()
-                }
-                return
-            }
-        }
-    }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//        CustomLoader.instance.showLoaderView()
+//
+//        let vendorID = vendors[indexPath.row].vendorId
+//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        let bookWashController = storyBoard.instantiateViewController(identifier: "BookCarWashViewController") as! BookCarWashViewController
+//
+//        ServerCommunication.sharedReference.fetchVendorDataWithID(vendorID: vendorID) { (status, message, vendor) in
+//
+//            if status{
+//                CustomLoader.instance.hideLoaderView()
+//                bookWashController.vendorDataForAboutView = vendor
+//                self.navigationController?.pushViewController(bookWashController, animated: true)
+//
+//            } else {
+//                Alerts.showAlert(controller: self, title: "Error", message: message) { (Ok) in
+//                    CustomLoader.instance.hideLoaderView()
+//                }
+//                return
+//            }
+//        }
+//    }
 }

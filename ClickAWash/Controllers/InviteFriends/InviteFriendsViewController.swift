@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InviteFriendsViewController: BaseController {
+class InviteFriendsViewController: UIViewController {
 
     @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var refferalCode: UILabel!

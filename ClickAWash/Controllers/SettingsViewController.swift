@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SettingsViewController: BaseController {
+class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
 }

@@ -1,14 +1,14 @@
 //
-//  DetailsController.swift
+//  WorkerSettings.swift
 //  ClickAWash
 //
-//  Created by Nayyer Ali on 5/30/20.
+//  Created by Nayyer Ali on 11/07/2020.
 //  Copyright © 2020 NayyerAli. All rights reserved.
 //
 
 import UIKit
 
-class DetailsController: UIViewController {
+class WorkerSettings: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -17,7 +17,7 @@ class VendorNotificationsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        senderImage.roundedImage()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

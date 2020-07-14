@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RateApplicationViewController: BaseController {
+class RateApplicationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

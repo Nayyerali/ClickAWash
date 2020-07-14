@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
         STPAPIClient.shared().publishableKey = "pk_test_UKYBPG0wRCKuYcKwx2dJjXf800TJHFl4F1"
-        GMSServices.provideAPIKey("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
-        GMSPlacesClient.provideAPIKey("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
+        GMSServices.provideAPIKey       ("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
+        GMSPlacesClient.provideAPIKey   ("AIzaSyAB9OV8FpxKLYP90-PQEKWrzTAHDfUwKZY")
         return true
     }
 

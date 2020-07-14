@@ -22,6 +22,11 @@ class MyBookingsViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //segmentedControlOut.selectedSegmentIndex = 0
+    }
+    
     @IBAction func segmentedControlSelected(_ sender: Any) {
         
         if segmentedControlOut.selectedSegmentIndex == 0 {

@@ -17,7 +17,7 @@ class TodoTableViewCell: UITableViewCell {
     @IBOutlet weak var vendorId: UILabel!
     @IBOutlet weak var dateAndTime: UILabel!
     @IBOutlet weak var packageName: UILabel!
-    @IBOutlet weak var doneBtnOut: UIButton!
+    @IBOutlet weak var startServiceBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,15 +29,11 @@ class TodoTableViewCell: UITableViewCell {
         internelViewOut.layer.shadowColor       =   UIColor.darkGray.cgColor
         internelViewOut.layer.shadowOffset      =   CGSize(width: 0.0, height: 0.0)
         internelViewOut.layer.shadowOpacity     =   0.7
-        doneBtnOut.layer.cornerRadius           =   5
+        startServiceBtn.layer.cornerRadius      =   5
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-    }
-    
-    @IBAction func doneBtnPressed(_ sender: Any) {
         
     }
 }
